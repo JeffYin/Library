@@ -1,0 +1,23 @@
+<!-- NOTE: If you're working offline, you might have to change the DOCTYPE to the following:
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">-->
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+         <mapping class="cgc.library.model.Address"/>
+		 <mapping class="cgc.library.model.BaseObject"/>
+		 <mapping class="cgc.library.model.Bibliography"/>
+		 <mapping class="cgc.library.model.Book"/>
+		 <mapping class="cgc.library.model.BookItem"/>
+		 <mapping class="cgc.library.model.Item"/>
+		 <mapping class="cgc.library.model.LabelValue"/>
+		 <mapping class="cgc.library.model.Library"/>
+		 <mapping class="cgc.library.model.Publisher"/>
+		 <mapping class="cgc.library.model.Role"/>
+		 <mapping class="cgc.library.model.Tag"/>
+		 <mapping class="cgc.library.model.User"/>
+
+    </session-factory>
+</hibernate-configuration>
