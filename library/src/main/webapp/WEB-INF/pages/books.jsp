@@ -11,6 +11,12 @@
         <a class="btn" href="<c:url value='/mainMenu'/>">
             <i class="icon-ok"></i> <fmt:message key="button.done"/></a>
     </div>
+    
+    <div class="container">
+        <div class="span4">
+           <img alt="" src="">
+        </div>
+    </div>
     <display:table name="bookList" class="table table-condensed table-striped table-hover" requestURI="" id="bookList" export="true" pagesize="25">
         <display:column property="id" sortable="true" href="bookform" media="html"
             paramId="id" paramProperty="id" titleKey="book.id"/>

@@ -25,6 +25,15 @@
     </div>
     
     <div class="control-group">
+        <appfuse:label styleClass="control-label" key="book.callNumber"/>
+        <div class="controls">
+            <form:input path="callNumber" id="callNumber" maxlength="50"/>
+            <form:errors path="callNumber" cssClass="help-inline"/>
+        </div>
+    </div>
+    
+    
+    <div class="control-group">
         <appfuse:label styleClass="control-label" key="book.author"/>
         <div class="controls">
             <form:input path="author" id="author" maxlength="50"/>
@@ -59,17 +68,7 @@
         </div>
     </div>
 
-   <!-- 
    
-    <div class="control-group">
-        <appfuse:label styleClass="control-label" key="book.price"/>
-        <div class="controls">
-            <input type="text"  id="price"/>
-             <form:errors path="price" cssClass="help-inline"/>
-        </div>
-    </div>
-     -->
-    
     <div class="control-group">
         <appfuse:label styleClass="control-label" key="book.briefIntroduction"/>
         <div class="controls">
