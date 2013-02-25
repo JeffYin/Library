@@ -30,14 +30,6 @@ public class Book extends Bibliography implements Serializable {
      */
     private static final long serialVersionUID = 50884446015440912L;
 
-
-    /**
-     * Field cover.
-     */
-    @Lob
-    @Type(type="org.springframework.orm.hibernate3.support.BlobByteArrayType")
-    private byte[] cover;
-
     /**
      * Field Items.
      */
@@ -55,40 +47,7 @@ public class Book extends Bibliography implements Serializable {
     }
 
 
-    /**
-     * Constructor with all parameters initialized.
-     * @param someCover
-     *           
-     * @param someItems
-     *           
-     */
-    public Book(byte[] someCover, List<BookItem> someItems) {
-        cover = someCover;
-        Items = someItems;
-    }
-
-    /**
-     * Returns EByteArray cover.
-     */
-     
-     
-    
-     @Lob
-	 @Column (name="cover")
-    public byte[] getCover() {
-        return cover;
-    }
-
-    /**
-     * Sets a value to parameter cover.
-     * @param someCover
-     *            
-     */
-    public void setCover(final byte[] someCover) {
-       propertyChangeSupport.firePropertyChange("cover", this.cover, this.cover=someCover);
-    }
-    
-		 
+   
 	 @OneToMany(mappedBy="book")          
 	public List<BookItem> getItems() {
 	        
@@ -157,11 +116,7 @@ public class Book extends Bibliography implements Serializable {
         if (id != null && castedOther.getId() != null) {
             return id.equals(castedOther.getId());
         }
-        if ((cover == null && castedOther.getCover() != null) 
-             || (cover != null && !cover.equals(
-                castedOther.getCover()))){
-           return false;
-        }
+      
         if ((Items == null && castedOther.getItems() != null) 
              || (Items != null && !Items.equals(
                 castedOther.getItems()))){
@@ -182,11 +137,7 @@ public class Book extends Bibliography implements Serializable {
         Long id=getId();
         if (id != null) {
             result = id.hashCode();
-        } else {
-            if (cover != null) {
-                result = 29 * result + cover.hashCode();
-            }
-         }
+        } 
        
         return result;
         // End of user code for hashCode
@@ -198,7 +149,7 @@ public class Book extends Bibliography implements Serializable {
     @Override
     public String toString() {
         ToStringBuilder sb = new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
-                   .append("cover", this.cover)    
+                   .append(super.toString())   
 
              ;
         return sb.toString();         

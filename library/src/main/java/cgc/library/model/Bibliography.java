@@ -7,9 +7,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,11 +19,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.hibernate.annotations.Type;
 // End of user code for imports
 /**
  */
@@ -93,6 +97,13 @@ public class Bibliography extends BaseObject implements Serializable {
      */
     private Tag tag;
 
+
+
+    /**
+     * Field cover.
+     */
+  
+    private byte[] cover;
 
 
 	/* To support bidirectional databinding */
@@ -375,7 +386,23 @@ public class Bibliography extends BaseObject implements Serializable {
  
     
     
-
+    
+    @Lob
+    @Basic(fetch=FetchType.LAZY)
+    @Type(type="org.springframework.orm.hibernate3.support.BlobByteArrayType")
+    
+    public byte[] getCover() {
+        return cover;
+    }
+    
+    /**
+     * Sets a value to parameter cover.
+     * @param someCover
+     *            
+     */
+    public void setCover(final byte[] someCover) {
+       propertyChangeSupport.firePropertyChange("cover", this.cover, this.cover=someCover);
+    }
 
 
 

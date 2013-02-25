@@ -12,7 +12,7 @@
 </div>
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="book" method="post" action="bookform" id="bookForm"
+    <form:form commandName="book" method="post" action="book" id="book"
                cssClass="well form-horizontal" enctype="multipart/form-data">
     <form:hidden path="id"/>
      
@@ -105,7 +105,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("input[type='text']:visible:enabled:first", document.forms['bookForm']).focus();
+        $("input[type='text']:visible:enabled:first", document.forms['book']).focus();
         $("#price").inputmask({
         	mask:"999.99"
         });

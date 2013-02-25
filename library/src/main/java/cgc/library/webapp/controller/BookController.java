@@ -22,7 +22,7 @@ import cgc.library.service.BookManager;
  * Simple class to deal with collection of data
  */
 @Controller
-@RequestMapping("/books*")
+@RequestMapping("/books")
 public class BookController {
    private transient final Log log = LogFactory.getLog(BookController.class);
    private  BookManager bookManager = null;
@@ -37,5 +37,6 @@ public class BookController {
         return new ModelAndView().addObject(bookManager.getAll());
     }
     
+
 
 }

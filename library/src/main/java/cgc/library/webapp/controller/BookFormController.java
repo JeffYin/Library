@@ -15,16 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import cgc.library.model.Book;
 import cgc.library.service.BookManager;
 
 @Controller
-@RequestMapping("/bookform*")
+@RequestMapping("/book")
 public class BookFormController extends BaseFormController {
   private BookManager bookManager = null;
 
@@ -37,6 +39,8 @@ public class BookFormController extends BaseFormController {
 	  setCancelView("redirect:books"); 
 	  setSuccessView("redirect:books"); 
   }
+  
+  
   
   @ModelAttribute
   @RequestMapping(method=RequestMethod.GET)
@@ -64,7 +68,7 @@ public class BookFormController extends BaseFormController {
           validator.validate(book, errors);
 
           if (errors.hasErrors() && request.getParameter("delete") == null) { // don't validate when deleting
-              return "bookform";
+              return "book";
           }
       }
 
@@ -72,7 +76,7 @@ public class BookFormController extends BaseFormController {
 
       //get Cover Image
       if (fileUpload!=null) {
-	      byte[]coverImg =  getCoverImage(fileUpload, request); 
+	      byte[]coverImg =  uploadCoverImage(fileUpload, request); 
 	      if (coverImg!=null) {
 	    	  book.setCover(coverImg); 
 	      }
@@ -91,7 +95,7 @@ public class BookFormController extends BaseFormController {
           saveMessage(request, getText(key, locale));
 
           if (!isNew) {
-              success = "redirect:bookform?id=" + book.getId();
+              success = "redirect:book?id=" + book.getId();
           }
       }
 
@@ -99,7 +103,18 @@ public class BookFormController extends BaseFormController {
   }
   
   
-  private byte[] getCoverImage(FileUpload fileUpload, HttpServletRequest request) {
+	/**
+	 * Get cover's image
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/cover/{bookId}", method = RequestMethod.GET)
+	public ModelAndView getCoverFromDatabase(@PathVariable Long bookId, HttpServletResponse response) throws Exception {
+		return null; 
+		
+	}
+  
+  private byte[] uploadCoverImage(FileUpload fileUpload, HttpServletRequest request) {
 	  // validate a file was entered
 	  byte[]imageData = null; 
 	  byte[]imageContent = fileUpload.getFile();
