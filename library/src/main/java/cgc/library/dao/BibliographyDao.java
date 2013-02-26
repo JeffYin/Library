@@ -4,7 +4,7 @@ import cgc.library.model.Bibliography;
 
 public interface BibliographyDao extends GenericDao<Bibliography, Long>{
 	 /**
-     * Get the book cover image. 
+     * Get the cover image. 
      * @param bookId
      * @return
      */

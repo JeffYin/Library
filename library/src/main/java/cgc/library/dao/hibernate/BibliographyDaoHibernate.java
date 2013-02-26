@@ -1,17 +1,11 @@
 package cgc.library.dao.hibernate;
 
 // Start of user code for import
-import java.io.Serializable;
 import java.util.List;
-
-import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.util.Version;
 import org.hibernate.Query;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import cgc.library.dao.BibliographyDao;
@@ -35,12 +29,13 @@ public class  BibliographyDaoHibernate extends GenericDaoHibernate<Bibliography,
      
     
     /**
-     * Get the book cover image. 
+     * Get the cover image. 
      * @param bookId
      * @return
      */
-    public byte[] getCoverImg(Long biblioGraphyId) {
-    	  Query qry = getSession().createQuery("get cover from Bibliograph b where b.id = :id");
+    @Override
+	public byte[] getCoverImg(Long biblioGraphyId) {
+    	  Query qry = getSession().createQuery("select cover from Bibliography b where b.id = :id");
     	  qry.setLong("id", biblioGraphyId);
           List<byte[]> coverList = qry.list();
           if (coverList!=null && coverList.size()>0) {

@@ -389,7 +389,7 @@ public class Bibliography extends BaseObject implements Serializable {
     
     @Lob
     @Basic(fetch=FetchType.LAZY)
-    @Type(type="org.springframework.orm.hibernate3.support.BlobByteArrayType")
+    @Type(type="org.springframework.orm.hibernate4.support.BlobByteArrayType")
     
     public byte[] getCover() {
         return cover;

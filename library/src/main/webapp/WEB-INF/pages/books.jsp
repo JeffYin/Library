@@ -12,12 +12,11 @@
             <i class="icon-ok"></i> <fmt:message key="button.done"/></a>
     </div>
     
-    
     <div class="container row">
         <ul class="thumbnails">
 		  <li class="span4">
 		    <a href="#" class="thumbnail">
-		      <img src="http://thumb10.shutterstock.com/thumb_small/449008/449008,1297430316,3/stock-photo-sad-child-looking-out-of-the-window-71121943.jpg/300x200" alt="">
+		      <img src="<c:url value='/bibliography/cover/1'/>" alt="">
 		    </a>
 		    <p>A Good Book</p>
 		  </li>
