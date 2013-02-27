@@ -7,10 +7,10 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.serial.SerialBlob;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -77,8 +77,9 @@ public class BookFormController extends BaseFormController {
       //get Cover Image
       if (fileUpload!=null) {
 	      byte[]coverImg =  uploadCoverImage(fileUpload, request); 
+	      Blob cover = new SerialBlob(coverImg);
 	      if (coverImg!=null) {
-	    	  book.setCover(coverImg); 
+	    	  book.setCover(cover); 
 	      }
       }
       

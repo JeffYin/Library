@@ -5,6 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -25,7 +26,6 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.hibernate.annotations.Type;
 // End of user code for imports
 /**
  */
@@ -103,7 +103,7 @@ public class Bibliography extends BaseObject implements Serializable {
      * Field cover.
      */
   
-    private byte[] cover;
+    private Blob cover;
 
 
 	/* To support bidirectional databinding */
@@ -389,9 +389,8 @@ public class Bibliography extends BaseObject implements Serializable {
     
     @Lob
     @Basic(fetch=FetchType.LAZY)
-    @Type(type="org.springframework.orm.hibernate4.support.BlobByteArrayType")
     
-    public byte[] getCover() {
+    public Blob getCover() {
         return cover;
     }
     
@@ -400,15 +399,10 @@ public class Bibliography extends BaseObject implements Serializable {
      * @param someCover
      *            
      */
-    public void setCover(final byte[] someCover) {
+    public void setCover(final Blob someCover) {
        propertyChangeSupport.firePropertyChange("cover", this.cover, this.cover=someCover);
     }
 
-
-
-
-
-   
     /**
      * Equality test based on attributes values.
      * @param other Value to compare
