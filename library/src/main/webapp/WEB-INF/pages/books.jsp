@@ -12,33 +12,20 @@
             <i class="icon-ok"></i> <fmt:message key="button.done"/></a>
     </div>
     
-    <div class="container row">
+  
+     <div class="container row">
         <ul class="thumbnails">
-		  <li class="span4">
+	    <c:forEach items="${bookList}" var="book">
+	      <li class="span4">
 		    <a href="#" class="thumbnail">
-		      <img src="<c:url value='/bibliography/cover/1'/>" alt="">
+		      <img src="<c:url value='/bibliography/cover/${book.id}'/>" alt="">
+		      <p>${book.title}</p>
 		    </a>
-		    <p>A Good Book</p>
-		  </li>
-		  
-		  <li class="span4">
-		    <a href="#" class="thumbnail">
-		      <img src="<c:url value='/bibliography/cover/2'/>" alt="">
-		    </a>
-		    <p>A Good Book</p>
-		  </li>
-		  
-		  <li class="span4">
-		    <a href="#" class="thumbnail">
-		      <img src="<c:url value='/bibliography/cover/3'/>" alt="">
-		    </a>
-		    <p>A Good Book</p>
-		  </li>
-		  
-		  
-		</ul>  
-       
-    </div>
+		   </li>
+	    </c:forEach>
+	    </ul>
+	  </div>
+    
     <display:table name="bookList" class="table table-condensed table-striped table-hover" requestURI="" id="bookList" export="true" pagesize="25">
         <display:column property="id" sortable="true" href="book" media="html"
             paramId="id" paramProperty="id" titleKey="book.id"/>
