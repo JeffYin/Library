@@ -44,7 +44,7 @@
     <div class="control-group">
         <appfuse:label styleClass="control-label" key="book.publisher"/>
         <div class="controls">
-            <form:input path="publisher.id" id="publisher" maxlength="254"/>
+            <form:input path="publisher.id" id="publisher" maxlength="254" autocomplete="true"/>
              <form:errors path="publisher.id" cssClass="help-inline"/>
         </div>
     </div>
