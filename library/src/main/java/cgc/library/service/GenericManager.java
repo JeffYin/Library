@@ -2,6 +2,7 @@ package cgc.library.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Generic Manager that talks to GenericDao to CRUD POJOs.
@@ -79,4 +80,12 @@ public interface GenericManager<T, PK extends Serializable> {
      *            true to perform the reindexing asynchronously
      */
     void reindexAll(boolean async);
+    
+    /**
+     * Find a list of records by using a named query
+     * @param queryName query name of the named query
+     * @param queryParams a map of the query names and the values
+     * @return a list of the records found
+     */
+    public List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams); 
 }

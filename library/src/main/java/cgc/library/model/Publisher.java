@@ -1,23 +1,34 @@
 package cgc.library.model;
 
 // Start of user code for imports
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import cgc.library.model.BaseObject;
-
 // End of user code for imports
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 /**
  */
- 
-import javax.persistence.*;
+
+@NamedQueries ({
+   @NamedQuery(
+	 name = "findPublisherByName",
+	 query = "from Publisher p where p.name like :name"
+    )	
+})
 
   @Entity
   @Table(name="publisher")
