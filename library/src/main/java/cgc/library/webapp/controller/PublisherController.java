@@ -40,7 +40,7 @@ public class PublisherController {
    }
 	
 	@RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handleRequest(@RequestParam(required = false, value = "name") String name, HttpServletResponse response) throws Exception {
+    public ModelAndView handleRequest(@RequestParam(required = false, value = "query") String name, HttpServletResponse response) throws Exception {
 		//TODO: search publisher by name.
 		if (StringUtils.isNotBlank(name)) {
 			ajaxFindPubsherByName(name, response); 
@@ -62,7 +62,7 @@ public class PublisherController {
 		
 		log.debug(String.format("find the publishers:%s", feedback)); 
 		
-		try {
+		try {	
 			response.getWriter().print(feedback);
 		} catch (IOException e) {
 			e.printStackTrace();

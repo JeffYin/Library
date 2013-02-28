@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/lib/bootstrap-fileupload.min.css'/>" />
     
     <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-fileupload.min.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-typeahead.js'/>"></script>
 </head>
  
 <div class="span2">
@@ -44,7 +45,8 @@
     <div class="control-group">
         <appfuse:label styleClass="control-label" key="book.publisher"/>
         <div class="controls">
-            <form:input path="publisher.id" id="publisher" maxlength="254" autocomplete="true"/>
+            <input type="text" id="publisherName" value="${book.publisher.name}" data-provide="typeahead">
+            <form:input path="publisher.id" id="publisherId" maxlength="254" autocomplete="true"/>
              <form:errors path="publisher.id" cssClass="help-inline"/>
         </div>
     </div>
@@ -106,9 +108,57 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("input[type='text']:visible:enabled:first", document.forms['book']).focus();
-        $("#price").inputmask({
-        	mask:"999.99"
-        });
+               
+        $("#publisherName").typeahead({
+        	/*
+        	source: [
+        	            { ID: 1, Name: 'Toronto' },
+        	            { ID: 2, Name: 'Montreal' },
+        	            { ID: 3, Name: 'New York' },
+        	            { ID: 4, Name: 'Buffalo' },
+        	            { ID: 5, Name: 'Boston' },
+        	            { ID: 6, Name: 'Columbus' },
+        	            { ID: 7, Name: 'Dallas' },
+        	            { ID: 8, Name: 'Vancouver' },
+        	            { ID: 9, Name: 'Seattle' },
+        	            { ID: 10, Name: 'Los Angeles' }
+        	        ],
+        	        display: 'Name',
+        	        val: 'ID'
+        	  */
+        	  
+        	  /*
+        	 ajax: { url: 'publishers', 
+        		 method:'GET',
+                 triggerLength: 1 
+                 },
+                 
+                 
+             itemSelected:function(item){
+            	 alert(item.text +":"+item.val);
+             },
+             
+             display: 'name',
+    	     val: 'id'
+             */
+             
+        	 source: function (typeahead, query) {
+        	    $.ajax({
+        	    	url:'publishers',
+        	    	type: 'GET',
+        	    	data: 'query=' + query,
+        	    	dataType: 'JSON',
+        	    	async: false,
+        	    	success: function(data) {
+        	    		//var item = JSON.parse(data);
+        	    		//alert(item.name);
+        	    		console.log(data);
+        	    		//typeahead.process(data);
+        	    	}
+        	    });   
+        	 }
+                 
+        }); 
     });
 </script>
 
