@@ -152,8 +152,12 @@
         	    	success: function(data) {
         	    		//var item = JSON.parse(data);
         	    		//alert(item.name);
-        	    		console.log(data);
-        	    		//typeahead.process(data);
+        	    		publisherNames=[]; 
+        	    		$.each(data, function(index, data) {
+        	    		    console.log(data.name+":"+data.id);
+        	    		    publisherNames.push(data.name);
+						});
+        	    		typeahead.process(publisherNames);
         	    	}
         	    });   
         	 }
