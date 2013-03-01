@@ -90,7 +90,7 @@ public class Bibliography extends BaseObject implements Serializable {
     /**
      * Field publisher.
      */
-    private Publisher publisher;
+    private String publisher;
 
     /**
      * Field tag.
@@ -136,48 +136,10 @@ public class Bibliography extends BaseObject implements Serializable {
         id = someId;
     }
 
-    /**
-     * Constructor with all parameters initialized.
-     * @param someTitle
-     *           
-     * @param somePublishedDate
-     *           
-     * @param somePublishedVersion
-     *           
-     * @param someBriefIntroduction
-     *           
-     * @param someCallNumber
-     *           
-     * @param someAuthor
-     *           
-     * @param someAuthorAlias
-     *           
-     * @param somePrice
-     *           
-     * @param somePublisher
-     *           
-     * @param someTag
-     *           
-     */
-    public Bibliography(String someTitle, Date somePublishedDate, Integer somePublishedVersion, String someBriefIntroduction, String someCallNumber, String someAuthor, String someAuthorAlias, BigDecimal somePrice, Publisher somePublisher, Tag someTag) {
-        title = someTitle;
-        publishedDate = somePublishedDate;
-        publishedVersion = somePublishedVersion;
-        briefIntroduction = someBriefIntroduction;
-        callNumber = someCallNumber;
-        author = someAuthor;
-        authorAlias = someAuthorAlias;
-        price = somePrice;
-        publisher = somePublisher;
-        tag = someTag;
-    }
-
+    
     /**
      * Returns String title.
      */
-     
-     
-    
      
 	 @Column (name="title")
     public String getTitle() {
@@ -333,33 +295,18 @@ public class Bibliography extends BaseObject implements Serializable {
        propertyChangeSupport.firePropertyChange("price", this.price, this.price=somePrice);
     }
     
- 
- 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  	@JoinTable(
-  	    name="bibliography_publisher",
-        joinColumns=@JoinColumn(name="BIBLIOGRAPHY_ID"),
-        inverseJoinColumns=@JoinColumn(name="PUBLISHER_ID")          		
-        )
-                	public Publisher getPublisher() {
-	        
-	        return publisher;
+    public String getPublisher() {
+    	return publisher; 
     }
-    			
-             
-             
-                  /**
+    
+   /**
      * Sets a value to parameter publisher.
      * @param somePublisher
      *            
      */
-    public void setPublisher(final Publisher somePublisher) {
+    public void setPublisher(final String somePublisher) {
         publisher = somePublisher;
     }
- 
-    
-    
-
  
  
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

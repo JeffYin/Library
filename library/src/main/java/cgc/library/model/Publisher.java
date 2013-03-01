@@ -4,8 +4,6 @@ package cgc.library.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -51,14 +48,7 @@ public class Publisher extends BaseObject implements Serializable {
      */
     private String name;
 
-    /**
-     * Field bibliographies.
-     */
-    private List<Bibliography> bibliographies;
-
-
-
-	/* To support bidirectional databinding */
+   	/* To support bidirectional databinding */
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener){
 		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
@@ -69,7 +59,6 @@ public class Publisher extends BaseObject implements Serializable {
      */
     public Publisher() {
         super();
-        bibliographies = new ArrayList<Bibliography>();
     }
 
     /**
@@ -96,9 +85,8 @@ public class Publisher extends BaseObject implements Serializable {
      * @param someBibliographies
      *           
      */
-    public Publisher(String someName, List<Bibliography> someBibliographies) {
+    public Publisher(String someName) {
         name = someName;
-        bibliographies = someBibliographies;
     }
 
     /**
@@ -123,51 +111,7 @@ public class Publisher extends BaseObject implements Serializable {
     }
     
 		 
-	 @OneToMany(mappedBy="publisher")          
-	public List<Bibliography> getBibliographies() {
-	        
-	        return bibliographies;
-    }
-    			
              
-             
-                  /**
-     * Sets a value to parameter bibliographies.
-     * @param someBibliographies
-     *            
-     */
-    public void setBibliographies(final List<Bibliography> someBibliographies) {
-        bibliographies = someBibliographies;
-    }
- 
-    
-    
-
-    /**
-     * Adds a Bibliography to the bibliographies Collection.
-     * Birectionnal association : add the current  instance to
-     * the given bibliographies parameter.
-     * @param bibliographiesElt Element to add
-     */
-    public void addBibliography(final Bibliography bibliographiesElt) {
-        bibliographies.add(bibliographiesElt);
-        bibliographiesElt.setPublisher(this);
-    }
-
-    /**
-     * Removes a Bibliography from the bibliographies Collection.
-     * Birectionnal association : remove the current  instance
-     * from the given bibliographies parameter.
-     * @param bibliographiesElt Element to remove
-     */
-    public void removeBibliography(final Bibliography bibliographiesElt) {
-        bibliographies.remove(bibliographiesElt);
-        bibliographiesElt.setPublisher(null);
-    }
-
-
-
-
 
    
     /**
@@ -194,11 +138,6 @@ public class Publisher extends BaseObject implements Serializable {
         if ((name == null && castedOther.getName() != null) 
              || (name != null && !name.equals(
                 castedOther.getName()))){
-           return false;
-        }
-        if ((bibliographies == null && castedOther.getBibliographies() != null) 
-             || (bibliographies != null && !bibliographies.equals(
-                castedOther.getBibliographies()))){
            return false;
         }
         return true;

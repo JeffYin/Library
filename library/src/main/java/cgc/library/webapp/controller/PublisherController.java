@@ -57,7 +57,7 @@ public class PublisherController {
 		queryParams.put("name", publisherName); 
 		List<Publisher>publisherList = publisherManager.findByNamedQuery("findPublisherByName", queryParams);
 		
-		JSONSerializer serializer = new JSONSerializer().include("id", "name").exclude("*"); 
+		JSONSerializer serializer = new JSONSerializer().include("name").exclude("*"); 
 		String feedback = serializer.serialize(publisherList);
 		
 		log.debug(String.format("find the publishers:%s", feedback)); 
