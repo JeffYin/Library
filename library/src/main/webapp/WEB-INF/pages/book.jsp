@@ -6,6 +6,8 @@
     
     <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-fileupload.min.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-typeahead.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-datepicker.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/lib/jquery.price_format.1.7.js'/>"></script>
 </head>
  
 <div class="span2">
@@ -45,9 +47,21 @@
     <div class="control-group">
         <appfuse:label styleClass="control-label" key="book.publisher"/>
         <div class="controls">
-            <input type="text" id="publisherName" value="${book.publisher.name}" data-provide="typeahead">
-            <form:input path="publisher.id" id="publisherId" maxlength="254" autocomplete="true"/>
-             <form:errors path="publisher.id" cssClass="help-inline"/>
+            <form:input path="publisher" id="publisher" maxlength="254" autocomplete="true"/>
+             <form:errors path="publisher" cssClass="help-inline"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <appfuse:label styleClass="control-label" key="book.publishedDate"/>
+        <div class="controls">
+            <div id="datetimepicker1" class="input-append date">
+			     <form:input path="publishedDate" id="publishedDate" placeholder="YYYY-MM-DD"/>
+			    <span class="add-on">
+			      <i class="icon-calendar"></i>
+			    </span>
+			 </div>
+             <form:errors path="publishedDate" cssClass="help-inline"/>
         </div>
     </div>
     
@@ -74,7 +88,7 @@
     <div class="control-group">
         <appfuse:label styleClass="control-label" key="book.briefIntroduction"/>
         <div class="controls">
-            <form:textarea path="briefIntroduction" id="briefIntroduction" maxlength="4098"/>
+             <form:textarea path="briefIntroduction" id="briefIntroduction" maxlength="4098" rows="6"/>
              <form:errors path="briefIntroduction" cssClass="help-inline"/>
         </div>
     </div>
@@ -93,6 +107,7 @@
         <button type="submit" class="btn btn-primary" name="save">
             <i class="icon-ok icon-white"></i> <fmt:message key="button.save"/>
         </button>
+   
         <c:if test="${not empty book.id}">
           <button type="submit" class="btn" name="delete">
               <i class="icon-trash"></i> <fmt:message key="button.delete"/>
@@ -109,39 +124,7 @@
     $(document).ready(function() {
         $("input[type='text']:visible:enabled:first", document.forms['book']).focus();
                
-        $("#publisherName").typeahead({
-        	/*
-        	source: [
-        	            { ID: 1, Name: 'Toronto' },
-        	            { ID: 2, Name: 'Montreal' },
-        	            { ID: 3, Name: 'New York' },
-        	            { ID: 4, Name: 'Buffalo' },
-        	            { ID: 5, Name: 'Boston' },
-        	            { ID: 6, Name: 'Columbus' },
-        	            { ID: 7, Name: 'Dallas' },
-        	            { ID: 8, Name: 'Vancouver' },
-        	            { ID: 9, Name: 'Seattle' },
-        	            { ID: 10, Name: 'Los Angeles' }
-        	        ],
-        	        display: 'Name',
-        	        val: 'ID'
-        	  */
-        	  
-        	  /*
-        	 ajax: { url: 'publishers', 
-        		 method:'GET',
-                 triggerLength: 1 
-                 },
-                 
-                 
-             itemSelected:function(item){
-            	 alert(item.text +":"+item.val);
-             },
-             
-             display: 'name',
-    	     val: 'id'
-             */
-             
+        $("#publisher").typeahead({
         	 source: function (typeahead, query) {
         	    $.ajax({
         	    	url:'publishers',
@@ -150,19 +133,22 @@
         	    	dataType: 'JSON',
         	    	async: false,
         	    	success: function(data) {
-        	    		//var item = JSON.parse(data);
-        	    		//alert(item.name);
-        	    		publisherNames=[]; 
-        	    		$.each(data, function(index, data) {
-        	    		    console.log(data.name+":"+data.id);
-        	    		    publisherNames.push(data.name);
-						});
-        	    		typeahead.process(publisherNames);
+        	    		typeahead.process(data);
         	    	}
         	    });   
-        	 }
-                 
+        	 } ,
+        	
+        	 property:'name' /* The publisher name should be displayed */
         }); 
+    });
+    
+    $('.date').datepicker({
+    	format:"yyyy-mm-dd"
+    }); 
+    
+    $('#price').priceFormat({
+        prefix: '',
+        thousandsSeparator: ''
     });
 </script>
 

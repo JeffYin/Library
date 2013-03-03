@@ -24,7 +24,7 @@
 <body<decorator:getProperty property="body.id" writeEntireProperty="true"/><decorator:getProperty property="body.class" writeEntireProperty="true"/>>
     <c:set var="currentMenu" scope="request"><decorator:getProperty property="meta.menu"/></c:set>
 
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top ">
         <div class="navbar-inner">
             <div class="container-fluid">
                 <%-- For smartphones and smaller screens --%>
@@ -35,11 +35,22 @@
                 </button>
                 <a class="brand" href="<c:url value='/'/>"><fmt:message key="webapp.name"/></a>
                 <%@ include file="/common/menu.jsp" %>
+                
+                 <div class="input-append">
+				    <input type="text" class="span2 search-query" placeholder="search">
+				    <button type="submit" class="btn">
+				       <i class="icon-search"></i>
+				    </button>
+				    
+				  </div>
+  
                 <c:if test="${pageContext.request.locale.language ne 'en'}">
                     <div id="switchLocale"><a href="<c:url value='/?locale=en'/>">
                         <fmt:message key="webapp.name"/> in English</a>
                     </div>
                 </c:if>
+                
+                
             </div>
         </div>
     </div>

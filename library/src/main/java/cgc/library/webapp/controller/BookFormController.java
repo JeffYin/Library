@@ -13,6 +13,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import cgc.library.Constants;
 import cgc.library.model.Book;
 import cgc.library.service.BookManager;
 
@@ -56,6 +59,15 @@ public class BookFormController extends BaseFormController {
 	  return book;
   }
   
+  
+  @RequestMapping(value="/{bookId}", method=RequestMethod.GET)
+  protected ModelAndView showBookInfo(@PathVariable Long bookId, HttpServletRequest request) throws Exception {
+	  Model model = new ExtendedModelMap();
+	 Book book = bookManager.get(bookId); 
+	 model.addAttribute(Constants.BOOK, book); 
+	 return new ModelAndView("book", model.asMap());
+  }
+  
   @RequestMapping(method = RequestMethod.POST)
   public String onSubmit(Book book, FileUpload fileUpload, BindingResult errors, HttpServletRequest request,
                          HttpServletResponse response)
@@ -77,9 +89,11 @@ public class BookFormController extends BaseFormController {
       //get Cover Image
       if (fileUpload!=null) {
 	      byte[]coverImg =  uploadCoverImage(fileUpload, request); 
-	      Blob cover = new SerialBlob(coverImg);
-	      if (coverImg!=null) {
-	    	  book.setCover(cover); 
+	      if (coverImg!=null && coverImg.length>0) {
+		      Blob cover = new SerialBlob(coverImg);
+		      if (coverImg!=null) {
+		    	  book.setCover(cover); 
+		      }
 	      }
       }
       
@@ -103,17 +117,6 @@ public class BookFormController extends BaseFormController {
       return success;
   }
   
-  
-	/**
-	 * Get cover's image
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/cover/{bookId}", method = RequestMethod.GET)
-	public ModelAndView getCoverFromDatabase(@PathVariable Long bookId, HttpServletResponse response) throws Exception {
-		return null; 
-		
-	}
   
   private byte[] uploadCoverImage(FileUpload fileUpload, HttpServletRequest request) {
 	  // validate a file was entered

@@ -71,6 +71,7 @@
     <column>call_number</column>
     <column>cover</column>
     <column>price</column>
+    <column>publisher</column>
     <column>published_date</column>
     <column>published_version</column>
     <column>title</column>
@@ -446,6 +447,7 @@ v/GTxJZXW2LUti46fZ4j/wCy1zuvftBeL7GFjFq+0hc/8esJ/mlenS4SxdR6Sj97/wAjgnxFho7x
 l+H+Z9MnivmDB9DXOj9qHx0Sf+J6en/Pnb//ABuq3/CSXv8Az2/8cX/CvsuHOE8XQVTnlHW3fz8k
 fPZzxDh6jjyxel+3l5n/2Q==]]></value>
       <value>100.00</value>
+      <value>天道出版社</value>
       <null/>
       <value>1</value>
       <value><![CDATA[范学德先生: 活出喜乐的人生 (2012-06-10)]]></value>
@@ -2693,6 +2695,7 @@ pHyfQRLnKJoLHQ7IjkC34K6AWIzayBzxS4hu1OyCuzvtRo6l20ZjLKcXg6omS/VcSlMKAzkzbRfV
 SnbSKQ+VvNEt9WvSXG8C2PuNvp2pRq9lmmbwCsSo/3jexRjmXdnZA8/n/g35hfgXXC8Xb4L0wMks
 CbvvAAAAAElFTkSuQmCC]]></value>
       <value>333.44</value>
+      <value>天道出版社</value>
       <null/>
       <value>2</value>
       <value>受难的耶稣</value>
@@ -4568,6 +4571,7 @@ GD9C2TChw5gAMQcF3a9W9PE+jv4i8McC7+H6n5n2AcPvEfwuxe9Q5WoHKAZW+pTaTLRBUQu1HUTI
 5mQPwQWC89AQYZQGb0t0Xwn7iHiYJDFOgAARQpxfYqXjdv+XlQ4ooP8COmo5zKKYmTcAAAAASUVO
 RK5CYII=]]></value>
       <value>888.99</value>
+      <value>天道出版社</value>
       <null/>
       <value>1</value>
       <value>主的呼召</value>
@@ -4860,6 +4864,7 @@ d3gdgFXBz5RyeKvzM0mXY85J+mKptzmUqeRkVrfBgSreP+HGPNgjJ8vNVTRqI2O7APbNUBmVwoY4
 3Yq5Jyzse65xVQY2UDHCHGOM+U/pVMUaEb0ZV4OfrV65GWLZPy+WKQKpyCM81ayr7P0cpSld5iKU
 pQClKUApSlAf/9k=]]></value>
       <value>999.99</value>
+      <value>天道出版社</value>
       <null/>
       <value>2</value>
       <value>不要浪费你的生命</value>
@@ -4873,26 +4878,7 @@ pQClKUApSlAf/9k=]]></value>
       <value>天道出版社</value>
     </row>
   </table>
-  <table name="bibliography_publisher">
-    <column>PUBLISHER_ID</column>
-    <column>BIBLIOGRAPHY_ID</column>
-    <row>
-      <value>-1</value>
-      <value>1</value>
-    </row>
-    <row>
-      <value>-1</value>
-      <value>2</value>
-    </row>
-    <row>
-      <value>-1</value>
-      <value>3</value>
-    </row>
-    <row>
-      <value>-1</value>
-      <value>4</value>
-    </row>
-  </table>
+  
   <table name="tag">
     <column>id</column>
     <column>name</column>

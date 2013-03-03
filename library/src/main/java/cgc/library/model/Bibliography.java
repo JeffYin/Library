@@ -96,16 +96,21 @@ public class Bibliography extends BaseObject implements Serializable {
      * Field tag.
      */
     private Tag tag;
-
-
-
+    
+    
     /**
      * Field cover.
      */
   
     private Blob cover;
-
-
+    
+    
+    /**
+     * 
+     */
+    private Date purchedDate;
+    
+     
 	/* To support bidirectional databinding */
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener){
@@ -177,8 +182,6 @@ public class Bibliography extends BaseObject implements Serializable {
     /**
      * Returns Integer publishedVersion.
      */
-     
-     
     
      
 	 @Column (name="published_version")
@@ -330,13 +333,9 @@ public class Bibliography extends BaseObject implements Serializable {
     public void setTag(final Tag someTag) {
         tag = someTag;
     }
- 
-    
-    
     
     @Lob
     @Basic(fetch=FetchType.LAZY)
-    
     public Blob getCover() {
         return cover;
     }
@@ -350,7 +349,16 @@ public class Bibliography extends BaseObject implements Serializable {
        propertyChangeSupport.firePropertyChange("cover", this.cover, this.cover=someCover);
     }
 
-    /**
+    
+	public Date getPurchedDate() {
+		return purchedDate;
+	}
+
+	public void setPurchedDate(Date purchedDate) {
+		this.purchedDate = purchedDate;
+	}
+
+	/**
      * Equality test based on attributes values.
      * @param other Value to compare
      * @return Returns true if and only if given object is an instance of
@@ -471,6 +479,7 @@ public class Bibliography extends BaseObject implements Serializable {
              .append("author", this.author)    
              .append("authorAlias", this.authorAlias)    
              .append("price", this.price)    
+             .append("purchedDate", this.purchedDate)    
 
              ;
         return sb.toString();         
