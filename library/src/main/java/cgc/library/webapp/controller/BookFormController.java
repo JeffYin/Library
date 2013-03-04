@@ -3,6 +3,7 @@ package cgc.library.webapp.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +14,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -26,8 +26,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cgc.library.Constants;
 import cgc.library.model.Book;
+import cgc.library.model.BookItem;
 import cgc.library.service.BookManager;
 
+
+@Transactional
 @Controller
 @RequestMapping("/book")
 public class BookFormController extends BaseFormController {
@@ -45,28 +48,33 @@ public class BookFormController extends BaseFormController {
   
   
   
-  @ModelAttribute
   @RequestMapping(method=RequestMethod.GET)
-  protected Book showForm(HttpServletRequest request) throws Exception {
+  @Transactional
+  protected ModelAndView showForm(HttpServletRequest request) throws Exception {
 	  String id = request.getParameter("id"); 
-	  
+	  Model model = new ExtendedModelMap();
+	  Book book = null; 
 	  if (!StringUtils.isBlank(id)) {
-		  return bookManager.get(new Long(id)); 
+		  Long bookId = Long.parseLong(id); 
+		  book = bookManager.getBook(bookId); 
+	  } else {
+	      book = new Book(); 
 	  }
 	  
+	 
+	  if (book!=null) {
+		  List<BookItem> items = book.getItems(); 
+			 if (items==null || items.size()==0) {
+				 BookItem item = new BookItem(); 
+			      book.addBookItem(item); 
+			 }
+	  }
 	  
-	  Book book = new Book(); 
-	  return book;
+	  model.addAttribute(Constants.BOOK, book); 
+	  
+	  return new ModelAndView("book", model.asMap());
   }
   
-  
-  @RequestMapping(value="/{bookId}", method=RequestMethod.GET)
-  protected ModelAndView showBookInfo(@PathVariable Long bookId, HttpServletRequest request) throws Exception {
-	  Model model = new ExtendedModelMap();
-	 Book book = bookManager.get(bookId); 
-	 model.addAttribute(Constants.BOOK, book); 
-	 return new ModelAndView("book", model.asMap());
-  }
   
   @RequestMapping(method = RequestMethod.POST)
   public String onSubmit(Book book, FileUpload fileUpload, BindingResult errors, HttpServletRequest request,

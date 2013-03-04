@@ -1,8 +1,6 @@
 package cgc.library.service;
 
 // Start of user code for import
-import java.util.List;
-
 import cgc.library.model.Book;
 
 
@@ -14,5 +12,10 @@ import cgc.library.model.Book;
  * This is the interface which represents the contract of the DAO access.
  */
 public interface BookManager extends GenericManager<Book,Long>{
-
+	 /**
+     * Load the lazylized Items.
+     * @param bookId
+     * @return
+     */
+	 public Book getBook(Long bookId);
 }

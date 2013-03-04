@@ -3,19 +3,18 @@ package cgc.library.model;
 // Start of user code for imports
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import cgc.library.model.Item;
-
 // End of user code for imports
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 /**
  */
- 
-import javax.persistence.*;
 
   @Entity
   @Table(name="book_item")
@@ -61,8 +60,7 @@ public class BookItem extends Item implements Serializable {
         joinColumns=@JoinColumn(name="BOOK_ITEM_ID"),
         inverseJoinColumns=@JoinColumn(name="BOOK_ID")          		
         )
-                	public Book getBook() {
-	        
+     public Book getBook() {
 	        return book;
     }
     			

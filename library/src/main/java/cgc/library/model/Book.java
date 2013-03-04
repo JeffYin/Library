@@ -2,24 +2,18 @@ package cgc.library.model;
 
 // Start of user code for imports
 import java.io.Serializable;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.hibernate.annotations.Type;
-
-import cgc.library.model.Bibliography;
-
 // End of user code for imports
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 /**
  */
- 
-import javax.persistence.*;
 
   @Entity
   @Table(name="book")
@@ -50,7 +44,6 @@ public class Book extends Bibliography implements Serializable {
    
 	 @OneToMany(mappedBy="book")          
 	public List<BookItem> getItems() {
-	        
 	        return Items;
     }
     			
@@ -78,7 +71,7 @@ public class Book extends Bibliography implements Serializable {
         Items.add(ItemsElt);
         ItemsElt.setBook(this);
     }
-
+    
     /**
      * Removes a BookItem from the Items Collection.
      * Birectionnal association : remove the current  instance

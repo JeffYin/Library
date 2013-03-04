@@ -86,6 +86,8 @@ public final class Constants {
 
     public static final String BOOK = "book";
     
+    public static final String ItemBarcodes = "Item_Barcodes";
+    
     
     
 }

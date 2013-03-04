@@ -15,7 +15,7 @@
 </div>
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="book" method="post" action="book" id="book"
+    <form:form commandName="book" method="post" action="/book" id="book"
                cssClass="well form-horizontal" enctype="multipart/form-data">
     <form:hidden path="id"/>
      
@@ -102,6 +102,17 @@
 	    <button onclick="alert($('#coverImg').attr('src'))">Test</button>
 	  </div>
 	</div>
+	
+	
+	 <div class="control-group">
+        <appfuse:label styleClass="control-label" key="item.barcode"/>
+        <div class="controls">
+            <c:forEach items="${book.items}" var="item" varStatus="status">
+               <input id="items[${status.index}].barcode" name="items[${status.index}].barcode" value="${item.barcode}" placeholder="Scan Barcode" />
+	   
+			</c:forEach>
+        </div>
+    </div>
 
     <div class="form-actions">
         <button type="submit" class="btn btn-primary" name="save">
