@@ -15,7 +15,7 @@
 </div>
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="book" method="post" action="/book" id="book"
+    <form:form commandName="book" method="post" action="book" id="book"
                cssClass="well form-horizontal" enctype="multipart/form-data">
     <form:hidden path="id"/>
      
