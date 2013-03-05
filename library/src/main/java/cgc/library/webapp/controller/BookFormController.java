@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cgc.library.Constants;
 import cgc.library.model.Book;
 import cgc.library.model.BookItem;
+import cgc.library.service.BookItemManager;
 import cgc.library.service.BookManager;
 
 
@@ -35,10 +36,16 @@ import cgc.library.service.BookManager;
 @RequestMapping("/book")
 public class BookFormController extends BaseFormController {
   private BookManager bookManager = null;
+  private BookItemManager bookItemManager = null; 
 
   @Autowired
   public void setBookManager(BookManager bookManager) {
 		this.bookManager = bookManager;
+  }
+
+  @Autowired
+  public void setBookItemManager(BookItemManager bookItemManager) {
+	  this.bookItemManager = bookItemManager;
   }
   
   public BookFormController() {
@@ -94,16 +101,7 @@ public class BookFormController extends BaseFormController {
 
       log.debug("entering 'onSubmit' method...");
 
-      //get Cover Image
-      if (fileUpload!=null) {
-	      byte[]coverImg =  uploadCoverImage(fileUpload, request); 
-	      if (coverImg!=null && coverImg.length>0) {
-		      Blob cover = new SerialBlob(coverImg);
-		      if (coverImg!=null) {
-		    	  book.setCover(cover); 
-		      }
-	      }
-      }
+     
       
       boolean isNew = (book.getId() == null);
       String success = getSuccessView();
@@ -113,7 +111,26 @@ public class BookFormController extends BaseFormController {
           bookManager.remove(book.getId());
           saveMessage(request, getText("book.deleted", locale));
       } else {
-          bookManager.save(book);
+    	  //get Cover Image
+          if (fileUpload!=null) {
+    	      byte[]coverImg =  uploadCoverImage(fileUpload, request); 
+    	      if (coverImg!=null && coverImg.length>0) {
+    		      Blob cover = new SerialBlob(coverImg);
+    		      if (coverImg!=null) {
+    		    	  book.setCover(cover); 
+    		      }
+    	      }
+          }
+          
+          List<BookItem> bookItems = book.getItems();
+          if (bookItems!=null) {
+        	  for (BookItem item: bookItems) {
+        		  item.setBook(book); 
+        		  bookItemManager.save(item); 
+        	  }
+          }
+          
+//          bookManager.save(book);
           String key = (isNew) ? "book.added" : "book.updated";
           saveMessage(request, getText(key, locale));
 

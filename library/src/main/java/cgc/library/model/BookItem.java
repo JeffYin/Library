@@ -6,7 +6,6 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -55,11 +54,7 @@ public class BookItem extends Item implements Serializable {
  
  
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  	@JoinTable(
-  	    name="book_item_book",
-        joinColumns=@JoinColumn(name="BOOK_ITEM_ID"),
-        inverseJoinColumns=@JoinColumn(name="BOOK_ID")          		
-        )
+    @JoinColumn(name = "BOOK_ID", nullable = false)
      public Book getBook() {
 	        return book;
     }
