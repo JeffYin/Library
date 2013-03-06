@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -21,7 +22,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -95,7 +96,7 @@ public class Bibliography extends BaseObject implements Serializable {
     /**
      * Field tag.
      */
-    private Tag tag;
+    private List<Tag> tags;
     
     
     /**
@@ -312,26 +313,48 @@ public class Bibliography extends BaseObject implements Serializable {
     }
  
  
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   	@JoinTable(
   	    name="bibliography_tag",
         joinColumns=@JoinColumn(name="BIBLIOGRAPHY_ID"),
         inverseJoinColumns=@JoinColumn(name="TAG_ID")          		
         )
-                	public Tag getTag() {
-	        
-	        return tag;
+         public List<Tag> getTags() {
+       return tags;
     }
     			
              
              
                   /**
      * Sets a value to parameter tag.
-     * @param someTag
+     * @param someTags
      *            
      */
-    public void setTag(final Tag someTag) {
-        tag = someTag;
+    public void setTag(List<Tag> someTags) {
+        tags = someTags;
+    }
+    
+    
+    /**
+     * Adds a Tag to the bibliographies Collection.
+     * Birectionnal association : add the current  instance to
+     * the given bibliographies parameter.
+     * @param bibliographiesElt Element to add
+     */
+    public void addTag(Tag someTag) {
+        tags.add(someTag);
+        someTag.addBibliography(this);
+    }
+
+    /**
+     * Removes a Bibliography from the bibliographies Collection.
+     * Birectionnal association : remove the current  instance
+     * from the given bibliographies parameter.
+     * @param someTag Element to remove
+     */
+    public void removeTag(Tag someTag) {
+        tags.remove(someTag);
+        someTag.removeBibliography(this);
     }
     
     @Lob
@@ -419,9 +442,9 @@ public class Bibliography extends BaseObject implements Serializable {
                 castedOther.getPublisher()))){
            return false;
         }
-        if ((tag == null && castedOther.getTag() != null) 
-             || (tag != null && !tag.equals(
-                castedOther.getTag()))){
+        if ((tags == null && castedOther.getTags() != null) 
+             || (tags != null && !tags.equals(
+                castedOther.getTags()))){
            return false;
         }
         return true;

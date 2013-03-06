@@ -105,6 +105,19 @@
 	
 	
 	 <div class="control-group">
+        <appfuse:label styleClass="control-label" key="book.tags"/>
+        <div class="controls">
+            <c:forEach items="${book.tags}" var="tag" varStatus="status">
+           
+                    <span  class="btn btn-success btn-large">${tag.name}</span>
+           
+              
+			</c:forEach>
+        </div>
+    </div>
+    
+    
+	 <div class="control-group">
         <appfuse:label styleClass="control-label" key="item.barcode"/>
         <div class="controls">
             <c:forEach items="${book.items}" var="item" varStatus="status">

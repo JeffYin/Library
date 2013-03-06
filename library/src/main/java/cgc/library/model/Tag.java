@@ -1,23 +1,25 @@
 package cgc.library.model;
 
 // Start of user code for imports
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import cgc.library.model.BaseObject;
-
 // End of user code for imports
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 /**
  */
- 
-import javax.persistence.*;
 
   @Entity
   @Table(name="tag")
@@ -112,7 +114,7 @@ public class Tag extends BaseObject implements Serializable {
     }
     
 		 
-	 @OneToMany(mappedBy="tag")          
+	 @ManyToMany(mappedBy="tags")          
 	public List<Bibliography> getBibliographies() {
 	        
 	        return bibliographies;
@@ -120,7 +122,7 @@ public class Tag extends BaseObject implements Serializable {
     			
              
              
-                  /**
+   /**
      * Sets a value to parameter bibliographies.
      * @param someBibliographies
      *            
@@ -140,7 +142,7 @@ public class Tag extends BaseObject implements Serializable {
      */
     public void addBibliography(final Bibliography bibliographiesElt) {
         bibliographies.add(bibliographiesElt);
-        bibliographiesElt.setTag(this);
+        bibliographiesElt.addTag(this);
     }
 
     /**

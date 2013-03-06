@@ -85,6 +85,8 @@ public final class Constants {
 	public static final String CSS_THEME = "csstheme";
 
     public static final String BOOK = "book";
+
+    public static final String TAGS = "tags";
     
     public static final String ItemBarcodes = "Item_Barcodes";
     

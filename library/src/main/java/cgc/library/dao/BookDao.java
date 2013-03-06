@@ -1,8 +1,6 @@
 package cgc.library.dao;
 
 // Start of user code for import
-import java.util.List;
-
 import cgc.library.model.Book;
 
 
@@ -13,6 +11,5 @@ import cgc.library.model.Book;
  * This is the interface which represents the contract of the DAO access.
  */
 public interface BookDao extends GenericDao<Book,Long>{
-	
 
 }

@@ -46,6 +46,8 @@ public class BookManagerImpl extends GenericManagerImpl<Book,Long> implements Bo
        Book book = bookDao.get(bookId);
        if (book!=null) {
     	   Hibernate.initialize(book.getItems()); 
+    	   Hibernate.initialize(book.getTags()); 
+    	   
        }
        return book; 
     }

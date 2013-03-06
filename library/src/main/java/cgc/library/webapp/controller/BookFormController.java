@@ -3,12 +3,14 @@ package cgc.library.webapp.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -27,8 +29,10 @@ import org.springframework.web.servlet.ModelAndView;
 import cgc.library.Constants;
 import cgc.library.model.Book;
 import cgc.library.model.BookItem;
+import cgc.library.model.Tag;
 import cgc.library.service.BookItemManager;
 import cgc.library.service.BookManager;
+import cgc.library.service.TagManager;
 
 
 @Transactional
@@ -37,6 +41,7 @@ import cgc.library.service.BookManager;
 public class BookFormController extends BaseFormController {
   private BookManager bookManager = null;
   private BookItemManager bookItemManager = null; 
+  private TagManager tagManager = null; 
 
   @Autowired
   public void setBookManager(BookManager bookManager) {
@@ -46,6 +51,11 @@ public class BookFormController extends BaseFormController {
   @Autowired
   public void setBookItemManager(BookItemManager bookItemManager) {
 	  this.bookItemManager = bookItemManager;
+  }
+
+  @Autowired
+  public void setTagManager(TagManager tagManager) {
+	  this.tagManager = tagManager;
   }
   
   public BookFormController() {
@@ -77,8 +87,12 @@ public class BookFormController extends BaseFormController {
 			 }
 	  }
 	  
-	  model.addAttribute(Constants.BOOK, book); 
+	  //Load Book Tags
+	  List<Tag> tagList = tagManager.getAll(); 
+	  model.addAttribute(Constants.TAGS, tagList); 
 	  
+	  
+	  model.addAttribute(Constants.BOOK, book); 
 	  return new ModelAndView("book", model.asMap());
   }
   
@@ -101,8 +115,6 @@ public class BookFormController extends BaseFormController {
 
       log.debug("entering 'onSubmit' method...");
 
-     
-      
       boolean isNew = (book.getId() == null);
       String success = getSuccessView();
       Locale locale = request.getLocale();
@@ -111,26 +123,8 @@ public class BookFormController extends BaseFormController {
           bookManager.remove(book.getId());
           saveMessage(request, getText("book.deleted", locale));
       } else {
-    	  //get Cover Image
-          if (fileUpload!=null) {
-    	      byte[]coverImg =  uploadCoverImage(fileUpload, request); 
-    	      if (coverImg!=null && coverImg.length>0) {
-    		      Blob cover = new SerialBlob(coverImg);
-    		      if (coverImg!=null) {
-    		    	  book.setCover(cover); 
-    		      }
-    	      }
-          }
-          
-          List<BookItem> bookItems = book.getItems();
-          if (bookItems!=null) {
-        	  for (BookItem item: bookItems) {
-        		  item.setBook(book); 
-        		  bookItemManager.save(item); 
-        	  }
-          }
-          
-//          bookManager.save(book);
+    	
+    	  saveBook(book, fileUpload, request); 
           String key = (isNew) ? "book.added" : "book.updated";
           saveMessage(request, getText(key, locale));
 
@@ -142,6 +136,38 @@ public class BookFormController extends BaseFormController {
       return success;
   }
   
+  /**
+   * Save the Book. 
+   * @param book
+   * @param fileUpload
+   * @param request
+   * @return
+   * @throws SerialException
+   * @throws SQLException
+   */
+  private Book saveBook(Book book, FileUpload fileUpload, HttpServletRequest request) throws SerialException, SQLException {
+	  //get Cover Image
+      if (fileUpload!=null) {
+	      byte[]coverImg =  uploadCoverImage(fileUpload, request); 
+	      if (coverImg!=null && coverImg.length>0) {
+		      Blob cover = new SerialBlob(coverImg);
+		      if (coverImg!=null) {
+		    	  book.setCover(cover); 
+		      }
+	      }
+      }
+      
+      List<BookItem> bookItems = book.getItems();
+      if (bookItems!=null) {
+    	  for (BookItem item: bookItems) {
+    		  item.setBook(book); 
+    		  bookItemManager.save(item); 
+    	  }
+      }
+      
+      return book; 
+      
+  }
   
   private byte[] uploadCoverImage(FileUpload fileUpload, HttpServletRequest request) {
 	  // validate a file was entered
