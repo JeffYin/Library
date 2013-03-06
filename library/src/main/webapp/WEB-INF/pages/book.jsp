@@ -1,4 +1,5 @@
 <%@ include file="/common/taglibs.jsp"%>
+
 <head>
     <title><fmt:message key="bookDetail.title"/></title>
     <meta name="menu" content="bookMenu"/>
@@ -107,11 +108,19 @@
 	 <div class="control-group">
         <appfuse:label styleClass="control-label" key="book.tags"/>
         <div class="controls">
-            <c:forEach items="${book.tags}" var="tag" varStatus="status">
-           
-                    <span  class="btn btn-success btn-large">${tag.name}</span>
-           
-              
+            <c:forEach items="${tags}" var="tag" varStatus="status">
+             <c:if test="${jfn:contains(book.tags, tag) }">
+			   <span id="${tag.id}"  class="btn btn-success btn-large" onclick="toggle(this, 'btn-success')">${tag.name}</span>
+			   <input id="tag_${tag.id}" type="text" name="tags[${status.index}].id" value="${tag.id}" />
+             </c:if>
+
+             <c:if  test="${not jfn:contains(book.tags, tag) }">
+			   <span id="${tag.id}" class="btn btn-large" onclick="toggle(this, 'btn-success')">${tag.name}</span>
+			    <input id="tag_${tag.id}" type="text" name="tags[${status.index}].id" value="" />
+             </c:if>
+             
+            
+             
 			</c:forEach>
         </div>
     </div>
@@ -174,6 +183,16 @@
         prefix: '',
         thousandsSeparator: ''
     });
+    
+    var toggle= function(tagEl, classNameStr) {
+    	$(tagEl).toggleClass(classNameStr); 
+        var input = document.getElementById('tag_'+tagEl.id);
+        if(tagEl.className.indexOf(classNameStr) > -1) {
+            input.value = tagEl.id;
+        } else {
+            input.value = '';
+        }
+    }
 </script>
 
  

@@ -330,7 +330,7 @@ public class Bibliography extends BaseObject implements Serializable {
      * @param someTags
      *            
      */
-    public void setTag(List<Tag> someTags) {
+    public void setTags(List<Tag> someTags) {
         tags = someTags;
     }
     
