@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Basic;
@@ -96,7 +97,7 @@ public class Bibliography extends BaseObject implements Serializable {
     /**
      * Field tag.
      */
-    private List<Tag> tags;
+    private List<Tag>  tags = new LinkedList<Tag>();
     
     
     /**
@@ -314,11 +315,12 @@ public class Bibliography extends BaseObject implements Serializable {
  
  
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  	@JoinTable(
-  	    name="bibliography_tag",
-        joinColumns=@JoinColumn(name="BIBLIOGRAPHY_ID"),
-        inverseJoinColumns=@JoinColumn(name="TAG_ID")          		
-        )
+	@JoinTable(
+  		   name = "bibliography_tag", 
+  	       joinColumns = {@JoinColumn(name = "BIBLIOGRAPHY_ID", nullable = false, updatable = false)}, 
+		   inverseJoinColumns = {@JoinColumn(name = "TAG_ID",nullable = false, updatable = false)}
+  		   )
+  	    
          public List<Tag> getTags() {
        return tags;
     }
@@ -343,7 +345,6 @@ public class Bibliography extends BaseObject implements Serializable {
      */
     public void addTag(Tag someTag) {
         tags.add(someTag);
-        someTag.addBibliography(this);
     }
 
     /**

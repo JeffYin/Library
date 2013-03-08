@@ -50,7 +50,7 @@
     </logger>
 
     <logger name="org.hibernate">
-        <level value="WARN"/>
+        <level value="DEBUG"/>
     </logger>
   
     <!--logger name="org.hibernate.SQL">
@@ -70,7 +70,7 @@
     </logger>
 
     <root>
-        <level value="DEBUG"/>
+        <level value="INFO"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 

@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -157,6 +159,25 @@ public class BookFormController extends BaseFormController {
 	      }
       }
       
+    //Get Tags 
+      String[] tagArray = request.getParameterValues("bookTags"); 
+      if (tagArray!=null) {
+    	  for (String tagName:tagArray) {
+    		  if (StringUtils.isNotEmpty(tagName)) {
+	    		  Map<String,Object> queryParams = new HashMap<String, Object>(1); 
+	    		  queryParams.put("name", tagName); 
+	    		  List<Tag> tagList = tagManager.findByNamedQuery("findTagByName", queryParams); 
+	    		  if (tagList.size()>0) {
+	    			  Tag tag = tagList.get(0); 
+	    			  book.addTag(tag); 
+	    		  } else if (tagList.size()==0) {
+	    			  Tag tag = new Tag(tagName); 
+	    			  book.addTag(tag); 
+	    		  }
+    		  }
+    	  }
+      }
+      
       List<BookItem> bookItems = book.getItems();
       if (bookItems!=null) {
     	  for (BookItem item: bookItems) {
@@ -164,6 +185,7 @@ public class BookFormController extends BaseFormController {
     		  bookItemManager.save(item); 
     	  }
       }
+      
       
       return book; 
       

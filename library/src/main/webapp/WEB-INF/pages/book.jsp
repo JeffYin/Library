@@ -93,34 +93,25 @@
              <form:errors path="briefIntroduction" cssClass="help-inline"/>
         </div>
     </div>
-    
-    <div class="fileupload fileupload-new" data-provides="fileupload">
-	  <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img  src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>
-	  <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
-	  <div>
-	    <span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" name="file" id="file"/></span>
-	    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-	    <button onclick="alert($('#coverImg').attr('src'))">Test</button>
-	  </div>
-	</div>
-	
-	
+
 	 <div class="control-group">
         <appfuse:label styleClass="control-label" key="book.tags"/>
         <div class="controls">
             <c:forEach items="${tags}" var="tag" varStatus="status">
-             <c:if test="${jfn:contains(book.tags, tag) }">
-			   <span id="${tag.id}"  class="btn btn-success btn-large" onclick="toggle(this, 'btn-success')">${tag.name}</span>
-			   <input id="tag_${tag.id}" type="text" name="tags[${status.index}].id" value="${tag.id}" />
-             </c:if>
-
-             <c:if  test="${not jfn:contains(book.tags, tag) }">
-			   <span id="${tag.id}" class="btn btn-large" onclick="toggle(this, 'btn-success')">${tag.name}</span>
-			    <input id="tag_${tag.id}" type="text" name="tags[${status.index}].id" value="" />
-             </c:if>
-             
             
+             <c:if test="${jfn:contains(book.tags, tag) }">
+                <c:set var="spanClasses">btn btn-success btn-large</c:set>
+                <c:set var="tagValue">${tag.name}</c:set>
+             </c:if>
              
+              <c:if  test="${not jfn:contains(book.tags, tag) }">
+                <c:set var="spanClasses">btn btn-large</c:set>
+                <c:set var="tagValue"></c:set>
+              </c:if>
+             
+			   <span id="${tag.id}"  class="${spanClasses}" onclick="toggle(this, 'btn-success')">${tag.name}</span>
+			   <input id="tag_${tag.id}" type="hidden" name="bookTags" value="${tagValue}" />
+
 			</c:forEach>
         </div>
     </div>
@@ -128,13 +119,26 @@
     
 	 <div class="control-group">
         <appfuse:label styleClass="control-label" key="item.barcode"/>
+        <button><i class="icon-plus-sign icon-large"></i><fmt:message key="webapp.new"/></button>
         <div class="controls">
             <c:forEach items="${book.items}" var="item" varStatus="status">
                <input id="items[${status.index}].barcode" name="items[${status.index}].barcode" value="${item.barcode}" placeholder="Scan Barcode" />
-	   
+               <input id="items[${status.index}].id" type="hidden" name="items[${status.index}].id" value="${item.id}" />
+               <button><i class="icon-large icon-trash"></i></button>
 			</c:forEach>
         </div>
     </div>
+    
+     
+    <div class="fileupload fileupload-new" data-provides="fileupload">
+	  <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img  src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>
+	  <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+	  <div>
+	    <span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" name="file" id="file"/></span>
+	    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+	  </div>
+	</div>
+	
 
     <div class="form-actions">
         <button type="submit" class="btn btn-primary" name="save">
@@ -188,7 +192,7 @@
     	$(tagEl).toggleClass(classNameStr); 
         var input = document.getElementById('tag_'+tagEl.id);
         if(tagEl.className.indexOf(classNameStr) > -1) {
-            input.value = tagEl.id;
+            input.value = $(tagEl).text();
         } else {
             input.value = '';
         }

@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -20,6 +22,13 @@ import org.apache.commons.lang.builder.ToStringStyle;
 // End of user code for imports
 /**
  */
+
+@NamedQueries ({
+	   @NamedQuery(
+		 name = "findTagByName",
+		 query = "from Tag p where p.name = :name"
+	    )	
+	})
 
   @Entity
   @Table(name="tag")
@@ -61,6 +70,11 @@ public class Tag extends BaseObject implements Serializable {
     public Tag() {
         super();
         bibliographies = new ArrayList<Bibliography>();
+    }
+    
+    public Tag(String name) {
+    	super(); 
+    	this.name = name; 
     }
 
     /**
@@ -153,7 +167,7 @@ public class Tag extends BaseObject implements Serializable {
      */
     public void removeBibliography(final Bibliography bibliographiesElt) {
         bibliographies.remove(bibliographiesElt);
-        bibliographiesElt.setTag(null);
+        bibliographiesElt.removeTag(this);
     }
 
 
