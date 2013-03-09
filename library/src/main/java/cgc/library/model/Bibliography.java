@@ -321,7 +321,7 @@ public class Bibliography extends BaseObject implements Serializable {
 		   inverseJoinColumns = {@JoinColumn(name = "TAG_ID",nullable = false, updatable = false)}
   		   )
   	    
-         public List<Tag> getTags() {
+    public List<Tag> getTags() {
        return tags;
     }
     			

@@ -119,13 +119,14 @@
     
 	 <div class="control-group">
         <appfuse:label styleClass="control-label" key="item.barcode"/>
-        <button><i class="icon-plus-sign icon-large"></i><fmt:message key="webapp.new"/></button>
-        <div class="controls">
+        <div class="controls" id="divForBarcodes">
+             <input id="barcodeIndex" type="hidden" value="${fn:length(book.items)}">
             <c:forEach items="${book.items}" var="item" varStatus="status">
-               <input id="items[${status.index}].barcode" name="items[${status.index}].barcode" value="${item.barcode}" placeholder="Scan Barcode" />
-               <input id="items[${status.index}].id" type="hidden" name="items[${status.index}].id" value="${item.id}" />
-               <button><i class="icon-large icon-trash"></i></button>
+               <input id="bookItems[${status.index}].barcode" name="bookItems[${status.index}].barcode" value="${item.barcode}" placeholder="Scan Barcode" />
+               <input id="bookItems[${status.index}].id" type="hidden" name="bookItems[${status.index}].id" value="${item.id}" />
+               <a id="barcodeAnchor_${status.index}" href="javascript:removeBarcode(${status.index})"><i class="icon-large icon-trash"></i></a>
 			</c:forEach>
+			<a id="newBarcodeAnchor" class="btn btn-primary" href="javascript:addBarcode()"><i class="icon-plus-sign icon-large"></i><i class="icon-barcode icon-large"></i><fmt:message key="webapp.new"/></a>
         </div>
     </div>
     
@@ -197,6 +198,28 @@
             input.value = '';
         }
     }
+    
+    function addBarcode() {
+    	//$("#divForBarcodes")
+    	var nextIndex = parseInt($("#barcodeIndex").val())+1; 
+    	$("<input id='bookItems["+nextIndex+"].barcode' name='bookItems["+nextIndex+"].barcode' value='' placeholder='Scan Barcode'/>").insertBefore($("#newBarcodeAnchor")); 
+        $("<input id='bookItems["+nextIndex+"].id' type='hidden' name='bookItems["+nextIndex+"].id' value='' />").insertBefore($("#newBarcodeAnchor"));
+        $("<a id='barcodeAnchor_"+nextIndex+"' href='javascript:removeBarcode("+nextIndex+")'><i class='icon-large icon-trash'></i></a>").insertBefore($("#newBarcodeAnchor"));
+        $("#barcodeIndex").val(nextIndex); 
+    }
+
+    function removeBarcode(barcodeIndex) {
+    	//$("#divForBarcodes")
+    	
+    	var barcodeBarcodeInputId="#bookItems\\["+barcodeIndex+"\\]\\.barcode";
+    	var barcodeIdInputId="#bookItems\\["+barcodeIndex+"\\]\\.id";
+    	
+    	$(barcodeBarcodeInputId).remove(); 
+    	$(barcodeIdInputId).remove(); 
+    	
+    	$("#barcodeAnchor_"+barcodeIndex).remove(); 
+    }
+    
 </script>
 
  
