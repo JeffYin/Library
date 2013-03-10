@@ -219,7 +219,8 @@
     	var barcodeBarcodeInputId="#bookItems\\["+barcodeIndex+"\\]\\.barcode";
     	var barcodeIdInputId="#bookItems\\["+barcodeIndex+"\\]\\.id";
     	
-    	var barcode = $(barcodeBarcodeInputId).val(); 
+    	var barcode = $(barcodeBarcodeInputId).val();
+    	barcode =$.trim(barcode);
     	if (barcode!="") {
     		$("#confirmDiv").confirmModal({
     			heading:'<fmt:message key="webapp.confirm" />',
