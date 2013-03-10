@@ -9,6 +9,8 @@
     <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-typeahead.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-datepicker.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/lib/jquery.price_format.1.7.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap.2.3.1.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-confirm.js'/>"></script>
 </head>
  
 <div class="span2">
@@ -126,7 +128,7 @@
                <input id="bookItems[${status.index}].id" type="hidden" name="bookItems[${status.index}].id" value="${item.id}" />
                <a id="barcodeAnchor_${status.index}" href="javascript:removeBarcode(${status.index})"><i class="icon-large icon-trash"></i></a>
 			</c:forEach>
-			<a id="newBarcodeAnchor" class="btn btn-primary" href="javascript:addBarcode()"><i class="icon-plus-sign icon-large"></i><i class="icon-barcode icon-large"></i><fmt:message key="webapp.new"/></a>
+			<a id="newBarcodeAnchor" class="btn btn-default" href="javascript:addBarcode()"><i class="icon-plus-sign icon-large"></i><i class="icon-barcode icon-large"></i><fmt:message key="webapp.new"/></a>
         </div>
     </div>
     
@@ -156,6 +158,9 @@
         </button>
     </div>
    
+     <div id="confirmDiv" >
+   
+     </div> 
     </form:form>
 </div>
 <script type="text/javascript">
@@ -214,11 +219,28 @@
     	var barcodeBarcodeInputId="#bookItems\\["+barcodeIndex+"\\]\\.barcode";
     	var barcodeIdInputId="#bookItems\\["+barcodeIndex+"\\]\\.id";
     	
-    	$(barcodeBarcodeInputId).remove(); 
-    	$(barcodeIdInputId).remove(); 
+    	var barcode = $(barcodeBarcodeInputId).val(); 
+    	if (barcode!="") {
+    		$("#confirmDiv").confirmModal({
+    			heading:'<fmt:message key="webapp.confirm" />',
+    			body:'<fmt:message key="item.barcode.confirmDelete"/>',
+    			callback: function() {
+    				$(barcodeBarcodeInputId).remove(); 
+    		    	$(barcodeIdInputId).remove(); 
+    		    	
+    		    	$("#barcodeAnchor_"+barcodeIndex).remove(); 
+    			 }
+    		});
+    	} else {
+    		$(barcodeBarcodeInputId).remove(); 
+	    	$(barcodeIdInputId).remove(); 
+	    	
+	    	$("#barcodeAnchor_"+barcodeIndex).remove(); 
+    	}
     	
-    	$("#barcodeAnchor_"+barcodeIndex).remove(); 
     }
+    
+    
     
 </script>
 
