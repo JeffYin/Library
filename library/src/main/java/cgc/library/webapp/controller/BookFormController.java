@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -100,8 +101,8 @@ public class BookFormController extends BaseFormController {
   
   
   @RequestMapping(method = RequestMethod.POST)
-  public String onSubmit(Book book, FileUpload fileUpload, BindingResult errors, HttpServletRequest request,
-                         HttpServletResponse response)
+  public String onSubmit(Book book, FileUpload fileUpload, LinkedList<BookItem>bookItemList,  BindingResult errors, 
+		     HttpServletRequest request, HttpServletResponse response)
   throws Exception {
       if (request.getParameter("cancel") != null) {
           return getCancelView();

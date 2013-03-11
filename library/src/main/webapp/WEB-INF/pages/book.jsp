@@ -207,8 +207,8 @@
     function addBarcode() {
     	//$("#divForBarcodes")
     	var nextIndex = parseInt($("#barcodeIndex").val())+1; 
-    	$("<input id='bookItems["+nextIndex+"].barcode' name='bookItems["+nextIndex+"].barcode' value='' placeholder='Scan Barcode'/>").insertBefore($("#newBarcodeAnchor")); 
-        $("<input id='bookItems["+nextIndex+"].id' type='hidden' name='bookItems["+nextIndex+"].id' value='' />").insertBefore($("#newBarcodeAnchor"));
+    	$("<input id='bookItemList["+nextIndex+"].barcode' name='bookItemList["+nextIndex+"].barcode' value='' placeholder='Scan Barcode'/>").insertBefore($("#newBarcodeAnchor")); 
+        $("<input id='bookItemList["+nextIndex+"].id' type='hidden' name='bookItemList["+nextIndex+"].id' value='' />").insertBefore($("#newBarcodeAnchor"));
         $("<a id='barcodeAnchor_"+nextIndex+"' href='javascript:removeBarcode("+nextIndex+")'><i class='icon-large icon-trash'></i></a>").insertBefore($("#newBarcodeAnchor"));
         $("#barcodeIndex").val(nextIndex); 
     }
@@ -216,8 +216,8 @@
     function removeBarcode(barcodeIndex) {
     	//$("#divForBarcodes")
     	
-    	var barcodeBarcodeInputId="#bookItems\\["+barcodeIndex+"\\]\\.barcode";
-    	var barcodeIdInputId="#bookItems\\["+barcodeIndex+"\\]\\.id";
+    	var barcodeBarcodeInputId="#bookItemList\\["+barcodeIndex+"\\]\\.barcode";
+    	var barcodeIdInputId="#bookItemList\\["+barcodeIndex+"\\]\\.id";
     	
     	var barcode = $(barcodeBarcodeInputId).val();
     	barcode =$.trim(barcode);
