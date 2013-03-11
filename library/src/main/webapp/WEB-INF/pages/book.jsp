@@ -124,8 +124,8 @@
         <div class="controls" id="divForBarcodes">
              <input id="barcodeIndex" type="hidden" value="${fn:length(book.items)}">
             <c:forEach items="${book.items}" var="item" varStatus="status">
-               <input id="bookItems[${status.index}].barcode" name="bookItems[${status.index}].barcode" value="${item.barcode}" placeholder="Scan Barcode" />
-               <input id="bookItems[${status.index}].id" type="hidden" name="bookItems[${status.index}].id" value="${item.id}" />
+               <input id="items[${status.index}].barcode" name="items[${status.index}].barcode" value="${item.barcode}" placeholder="Scan Barcode" />
+               <input id="items[${status.index}].id" type="hidden" name="items[${status.index}].id" value="${item.id}" />
                <a id="barcodeAnchor_${status.index}" href="javascript:removeBarcode(${status.index})"><i class="icon-large icon-trash"></i></a>
 			</c:forEach>
 			<a id="newBarcodeAnchor" class="btn btn-default" href="javascript:addBarcode()"><i class="icon-plus-sign icon-large"></i><i class="icon-barcode icon-large"></i><fmt:message key="webapp.new"/></a>
@@ -207,8 +207,8 @@
     function addBarcode() {
     	//$("#divForBarcodes")
     	var nextIndex = parseInt($("#barcodeIndex").val())+1; 
-    	$("<input id='bookItemList["+nextIndex+"].barcode' name='bookItemList["+nextIndex+"].barcode' value='' placeholder='Scan Barcode'/>").insertBefore($("#newBarcodeAnchor")); 
-        $("<input id='bookItemList["+nextIndex+"].id' type='hidden' name='bookItemList["+nextIndex+"].id' value='' />").insertBefore($("#newBarcodeAnchor"));
+    	$("<input id='items["+nextIndex+"].barcode' name='items["+nextIndex+"].barcode' value='' placeholder='Scan Barcode'/>").insertBefore($("#newBarcodeAnchor")); 
+        $("<input id='items["+nextIndex+"].id' type='hidden' name='items["+nextIndex+"].id' value='' />").insertBefore($("#newBarcodeAnchor"));
         $("<a id='barcodeAnchor_"+nextIndex+"' href='javascript:removeBarcode("+nextIndex+")'><i class='icon-large icon-trash'></i></a>").insertBefore($("#newBarcodeAnchor"));
         $("#barcodeIndex").val(nextIndex); 
     }
@@ -216,8 +216,8 @@
     function removeBarcode(barcodeIndex) {
     	//$("#divForBarcodes")
     	
-    	var barcodeBarcodeInputId="#bookItemList\\["+barcodeIndex+"\\]\\.barcode";
-    	var barcodeIdInputId="#bookItemList\\["+barcodeIndex+"\\]\\.id";
+    	var barcodeBarcodeInputId="#items\\["+barcodeIndex+"\\]\\.barcode";
+    	var barcodeIdInputId="#items\\["+barcodeIndex+"\\]\\.id";
     	
     	var barcode = $(barcodeBarcodeInputId).val();
     	barcode =$.trim(barcode);

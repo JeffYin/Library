@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -36,6 +37,7 @@ import cgc.library.model.Tag;
 import cgc.library.service.BookItemManager;
 import cgc.library.service.BookManager;
 import cgc.library.service.TagManager;
+
 
 
 @Transactional
@@ -179,6 +181,8 @@ public class BookFormController extends BaseFormController {
     	  }
       }
       
+      //Remove the blank barcodes. 
+      refineItemBarcodes(book); 
       List<BookItem> bookItems = book.getItems();
       if (bookItems!=null) {
     	  for (BookItem item: bookItems) {
@@ -190,6 +194,27 @@ public class BookFormController extends BaseFormController {
       
       return book; 
       
+  }
+  
+  /**
+   * Remove the blank barcodes.
+   * @param item
+   */
+  private void refineItemBarcodes(Book book){
+	  if (book!=null) {
+		  List<BookItem>bookItemList = book.getItems(); 
+		  if (bookItemList!=null) {
+			  Iterator<BookItem> iterator = bookItemList.iterator(); 
+			  while(iterator.hasNext()) {
+				  String barcode = iterator.next().getBarcode(); 
+				  if (StringUtils.isBlank(barcode)) {
+					  iterator.remove(); 
+				  }
+			  }
+		  }
+		  
+	  }
+	  
   }
   
   private byte[] uploadCoverImage(FileUpload fileUpload, HttpServletRequest request) {
