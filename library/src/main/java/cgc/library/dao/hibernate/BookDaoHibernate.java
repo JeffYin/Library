@@ -3,11 +3,9 @@ package cgc.library.dao.hibernate;
 // Start of user code for import
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.stereotype.Repository;
- 
+
 import cgc.library.dao.BookDao;
-import cgc.library.model.Bibliography;
 import cgc.library.model.Book;
 
 // End of user code for import
@@ -17,7 +15,7 @@ import cgc.library.model.Book;
  * This is the interface which represents the contract of the DAO access.
  */
  @Repository
-public class BookDaoHibernate extends GenericDaoHibernate<Book,Long> implements BookDao{
+public class BookDaoHibernate extends PaginatedDaoHibernate<Book,Long> implements BookDao{
      private transient final Log log = LogFactory.getLog(BookDaoHibernate.class);
     /**
      * Constructor that sets the entity to Book.class.

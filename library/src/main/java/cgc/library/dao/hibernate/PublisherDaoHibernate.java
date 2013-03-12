@@ -15,7 +15,7 @@ import cgc.library.model.Publisher;
  * This is the interface which represents the contract of the DAO access.
  */
  @Repository
-public class PublisherDaoHibernate extends GenericDaoHibernate<Publisher,Long> implements PublisherDao{
+public class PublisherDaoHibernate extends PaginatedDaoHibernate<Publisher,Long> implements PublisherDao{
      private transient final Log log = LogFactory.getLog(PublisherDaoHibernate.class);
     /**
      * Constructor that sets the entity to Publisher.class.

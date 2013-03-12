@@ -25,9 +25,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 // End of user code for imports
 /**
  */
@@ -85,6 +82,10 @@ public class Bibliography extends BaseObject implements Serializable {
     private String authorAlias;
 
     /**
+     * The maximum dueDays. 
+     */
+    private Integer dueDays;
+    /**
      * Field price.
      */
     private BigDecimal price;
@@ -111,6 +112,8 @@ public class Bibliography extends BaseObject implements Serializable {
      * 
      */
     private Date purchedDate;
+    
+    
     
      
 	/* To support bidirectional databinding */
@@ -382,6 +385,15 @@ public class Bibliography extends BaseObject implements Serializable {
 		this.purchedDate = purchedDate;
 	}
 
+	
+	public Integer getDueDays() {
+		return dueDays;
+	}
+
+	public void setDueDays(Integer dueDays) {
+		this.dueDays = dueDays;
+	}
+
 	/**
      * Equality test based on attributes values.
      * @param other Value to compare
@@ -389,124 +401,143 @@ public class Bibliography extends BaseObject implements Serializable {
      * Bibliography and the given object has the same PK as this
      * if the PK is not null or their fields are equal.
      */
-    @Override
-    public boolean equals(final Object other) {
-        // Start of user code for equals
-        if (this == other) {
-            return true;
-        }
-        if (!(other instanceof Bibliography)) {
-            return false;
-        }
-        final Bibliography castedOther = (Bibliography) other;
-        Long id=getId();
-        if (id != null && castedOther.getId() != null) {
-            return id.equals(castedOther.getId());
-        }
-        if ((title == null && castedOther.getTitle() != null) 
-             || (title != null && !title.equals(
-                castedOther.getTitle()))){
-           return false;
-        }
-        if ((publishedDate == null && castedOther.getPublishedDate() != null) 
-             || (publishedDate != null && !publishedDate.equals(
-                castedOther.getPublishedDate()))){
-           return false;
-        }
-        if ((publishedVersion == null && castedOther.getPublishedVersion() != null) 
-             || (publishedVersion != null && !publishedVersion.equals(
-                castedOther.getPublishedVersion()))){
-           return false;
-        }
-        if ((briefIntroduction == null && castedOther.getBriefIntroduction() != null) 
-             || (briefIntroduction != null && !briefIntroduction.equals(
-                castedOther.getBriefIntroduction()))){
-           return false;
-        }
-        if ((callNumber == null && castedOther.getCallNumber() != null) 
-             || (callNumber != null && !callNumber.equals(
-                castedOther.getCallNumber()))){
-           return false;
-        }
-        if ((author == null && castedOther.getAuthor() != null) 
-             || (author != null && !author.equals(
-                castedOther.getAuthor()))){
-           return false;
-        }
-        if ((authorAlias == null && castedOther.getAuthorAlias() != null) 
-             || (authorAlias != null && !authorAlias.equals(
-                castedOther.getAuthorAlias()))){
-           return false;
-        }
-        if ((publisher == null && castedOther.getPublisher() != null) 
-             || (publisher != null && !publisher.equals(
-                castedOther.getPublisher()))){
-           return false;
-        }
-        if ((tags == null && castedOther.getTags() != null) 
-             || (tags != null && !tags.equals(
-                castedOther.getTags()))){
-           return false;
-        }
-        return true;
-        // End of user code for equals
-    }
+   
 
-    /**
-     * HashTable code based on attributes hashcodes.
-     * @return Returns hash value
-     */
     @Override
-    public int hashCode() {
-        // Start of user code for hashCode
-        int result = 0;
-        Long id=getId();
-        if (id != null) {
-            result = id.hashCode();
-        } else {
-            if (title != null) {
-                result = 29 * result + title.hashCode();
-            }
-            if (publishedDate != null) {
-                result = 29 * result + publishedDate.hashCode();
-            }
-            result = 29 * result + publishedVersion;
-            if (briefIntroduction != null) {
-                result = 29 * result + briefIntroduction.hashCode();
-            }
-            if (callNumber != null) {
-                result = 29 * result + callNumber.hashCode();
-            }
-            if (author != null) {
-                result = 29 * result + author.hashCode();
-            }
-            if (authorAlias != null) {
-                result = 29 * result + authorAlias.hashCode();
-            }
-         }
-       
-        return result;
-        // End of user code for hashCode
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((author == null) ? 0 : author.hashCode());
+		result = prime * result
+				+ ((authorAlias == null) ? 0 : authorAlias.hashCode());
+		result = prime
+				* result
+				+ ((briefIntroduction == null) ? 0 : briefIntroduction
+						.hashCode());
+		result = prime * result
+				+ ((callNumber == null) ? 0 : callNumber.hashCode());
+		result = prime * result + ((cover == null) ? 0 : cover.hashCode());
+		result = prime * result + ((dueDays == null) ? 0 : dueDays.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime
+				* result
+				+ ((propertyChangeSupport == null) ? 0 : propertyChangeSupport
+						.hashCode());
+		result = prime * result
+				+ ((publishedDate == null) ? 0 : publishedDate.hashCode());
+		result = prime
+				* result
+				+ ((publishedVersion == null) ? 0 : publishedVersion.hashCode());
+		result = prime * result
+				+ ((publisher == null) ? 0 : publisher.hashCode());
+		result = prime * result
+				+ ((purchedDate == null) ? 0 : purchedDate.hashCode());
+		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Bibliography other = (Bibliography) obj;
+		if (author == null) {
+			if (other.author != null)
+				return false;
+		} else if (!author.equals(other.author))
+			return false;
+		if (authorAlias == null) {
+			if (other.authorAlias != null)
+				return false;
+		} else if (!authorAlias.equals(other.authorAlias))
+			return false;
+		if (briefIntroduction == null) {
+			if (other.briefIntroduction != null)
+				return false;
+		} else if (!briefIntroduction.equals(other.briefIntroduction))
+			return false;
+		if (callNumber == null) {
+			if (other.callNumber != null)
+				return false;
+		} else if (!callNumber.equals(other.callNumber))
+			return false;
+		if (cover == null) {
+			if (other.cover != null)
+				return false;
+		} else if (!cover.equals(other.cover))
+			return false;
+		if (dueDays == null) {
+			if (other.dueDays != null)
+				return false;
+		} else if (!dueDays.equals(other.dueDays))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (propertyChangeSupport == null) {
+			if (other.propertyChangeSupport != null)
+				return false;
+		} else if (!propertyChangeSupport.equals(other.propertyChangeSupport))
+			return false;
+		if (publishedDate == null) {
+			if (other.publishedDate != null)
+				return false;
+		} else if (!publishedDate.equals(other.publishedDate))
+			return false;
+		if (publishedVersion == null) {
+			if (other.publishedVersion != null)
+				return false;
+		} else if (!publishedVersion.equals(other.publishedVersion))
+			return false;
+		if (publisher == null) {
+			if (other.publisher != null)
+				return false;
+		} else if (!publisher.equals(other.publisher))
+			return false;
+		if (purchedDate == null) {
+			if (other.purchedDate != null)
+				return false;
+		} else if (!purchedDate.equals(other.purchedDate))
+			return false;
+		if (tags == null) {
+			if (other.tags != null)
+				return false;
+		} else if (!tags.equals(other.tags))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+
 /**
      * Output the information of Bibliography
      * @return Returns the information
      */
     @Override
     public String toString() {
-        ToStringBuilder sb = new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
-                   .append("title", this.title)    
-             .append("publishedDate", this.publishedDate)    
-             .append("publishedVersion", this.publishedVersion)    
-             .append("briefIntroduction", this.briefIntroduction)    
-             .append("callNumber", this.callNumber)    
-             .append("author", this.author)    
-             .append("authorAlias", this.authorAlias)    
-             .append("price", this.price)    
-             .append("purchedDate", this.purchedDate)    
-
-             ;
-        return sb.toString();         
+    	return "Bibliography [id=" + id + ", title=" + title + ", publishedDate="
+    			+ publishedDate + ", publishedVersion=" + publishedVersion
+    			+ ", briefIntroduction=" + briefIntroduction + ", callNumber="
+    			+ callNumber + ", author=" + author + ", authorAlias="
+    			+ authorAlias + ", dueDays=" + dueDays + ", price=" + price
+    			+ ", publisher=" + publisher + ", tags=" + tags + ", cover="
+    			+ cover + ", purchedDate=" + purchedDate
+    			+ ", propertyChangeSupport=" + propertyChangeSupport + "]";
     }
     // Start of user code for private methods
     // TODO Remove this line and add your private methods here

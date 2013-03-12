@@ -2,7 +2,7 @@ package cgc.library.dao;
 
 import cgc.library.model.Bibliography;
 
-public interface BibliographyDao extends GenericDao<Bibliography, Long>{
+public interface BibliographyDao extends PaginatedDao<Bibliography, Long>{
 	 /**
      * Get the cover image. 
      * @param bookId

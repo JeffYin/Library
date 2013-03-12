@@ -23,7 +23,7 @@ import cgc.library.model.Bibliography;
  * This is the interface which represents the contract of the DAO access.
  */
  @Repository
-public class  BibliographyDaoHibernate extends GenericDaoHibernate<Bibliography,Long> implements BibliographyDao{
+public class  BibliographyDaoHibernate extends PaginatedDaoHibernate<Bibliography,Long> implements BibliographyDao{
 	 
      public BibliographyDaoHibernate() {
 		super(Bibliography.class);

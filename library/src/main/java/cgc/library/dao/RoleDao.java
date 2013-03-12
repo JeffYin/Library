@@ -7,10 +7,10 @@ import cgc.library.model.Role;
  *
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
  */
-public interface RoleDao extends GenericDao<Role, Long> {
+public interface RoleDao extends PaginatedDao<Role, Long> {
     /**
-     * Gets role information based on rolename
-     * @param rolename the rolename
+     * Gets role information based on role name
+     * @param rolename the role name
      * @return populated role object
      */
     Role getRoleByName(String rolename);

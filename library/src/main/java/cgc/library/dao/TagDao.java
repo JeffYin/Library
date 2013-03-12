@@ -11,6 +11,6 @@ import cgc.library.model.Tag;
  * This class provides the data access layer to the TagDao entity class.<br/>
  * This is the interface which represents the contract of the DAO access.
  */
-public interface TagDao extends GenericDao<Tag,Long>{
+public interface TagDao extends PaginatedDao<Tag,Long>{
 
 }

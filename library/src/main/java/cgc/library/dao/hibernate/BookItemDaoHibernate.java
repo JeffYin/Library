@@ -15,7 +15,7 @@ import cgc.library.model.BookItem;
  * This is the interface which represents the contract of the DAO access.
  */
  @Repository
-public class BookItemDaoHibernate extends GenericDaoHibernate<BookItem,Long> implements BookItemDao{
+public class BookItemDaoHibernate extends PaginatedDaoHibernate<BookItem,Long> implements BookItemDao{
      private transient final Log log = LogFactory.getLog(BookItemDaoHibernate.class);
     /**
      * Constructor that sets the entity to Book.class.

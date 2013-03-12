@@ -1,19 +1,20 @@
 package cgc.library.dao;
 
-import cgc.library.model.User;
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import cgc.library.model.User;
 
 /**
  * User Data Access Object (GenericDao) interface.
  *
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
  */
-public interface UserDao extends GenericDao<User, Long> {
+public interface UserDao extends PaginatedDao<User, Long> {
 
     /**
      * Gets users information based on login name.

@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import cgc.library.dao.GenericDao;
+import cgc.library.dao.PaginatedDao;
 import cgc.library.service.GenericManager;
 
 /**
@@ -54,13 +54,13 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * GenericDao instance, set by constructor of child classes
      */
-    protected GenericDao<T, PK> dao;
+    protected PaginatedDao<T, PK> dao;
 
 
     public GenericManagerImpl() {
     }
 
-    public GenericManagerImpl(GenericDao<T, PK> genericDao) {
+    public GenericManagerImpl(PaginatedDao<T, PK> genericDao) {
         this.dao = genericDao;
     }
 

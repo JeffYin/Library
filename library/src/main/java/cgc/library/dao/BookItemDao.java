@@ -6,7 +6,7 @@ import cgc.library.model.BookItem;
 
 // End of user code for import
 
-public interface BookItemDao extends GenericDao<BookItem,Long>{
+public interface BookItemDao extends PaginatedDao<BookItem,Long>{
 	
 
 }

@@ -15,7 +15,7 @@ import cgc.library.model.Tag;
  * This is the interface which represents the contract of the DAO access.
  */
  @Repository
-public class TagDaoHibernate extends GenericDaoHibernate<Tag,Long> implements TagDao{
+public class TagDaoHibernate extends PaginatedDaoHibernate<Tag,Long> implements TagDao{
      private transient final Log log = LogFactory.getLog(TagDaoHibernate.class);
     /**
      * Constructor that sets the entity to Tag.class.
