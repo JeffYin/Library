@@ -26,5 +26,5 @@ public class BookItemDaoHibernate extends GenericDaoHibernate<BookItem,Long> imp
 
          // End of user code for consutuctor. 
     }
-   
+    
 }

@@ -6,7 +6,6 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -88,7 +87,7 @@ public class BookFormController extends BaseFormController {
 		  List<BookItem> items = book.getItems(); 
 			 if (items==null || items.size()==0) {
 				 BookItem item = new BookItem(); 
-			      book.addBookItem(item); 
+			     book.addBookItem(item); 
 			 }
 	  }
 	  
@@ -103,7 +102,7 @@ public class BookFormController extends BaseFormController {
   
   
   @RequestMapping(method = RequestMethod.POST)
-  public String onSubmit(Book book, FileUpload fileUpload, LinkedList<BookItem>bookItemList,  BindingResult errors, 
+  public String onSubmit(Book book, FileUpload fileUpload, BindingResult errors, 
 		     HttpServletRequest request, HttpServletResponse response)
   throws Exception {
       if (request.getParameter("cancel") != null) {
@@ -181,15 +180,17 @@ public class BookFormController extends BaseFormController {
     	  }
       }
       
-      //Remove the blank barcodes. 
-      refineItemBarcodes(book); 
-      List<BookItem> bookItems = book.getItems();
-      if (bookItems!=null) {
-    	  for (BookItem item: bookItems) {
-    		  item.setBook(book); 
-    		  bookItemManager.save(item); 
-    	  }
+      
+      //Book already exists
+      Long bookId = book.getId(); 
+      if (bookId!=null) {
+    	  List<BookItem>bookItemList = bookItemManager.getBookItemList(bookId); 
+    	  //Remove the blank barcodes. 
+          List<BookItem>tempItems = book.getTempItems(); 
+          refineItemBarcodes(tempItems); 
+          updateBookItems(bookItemList, tempItems, book); 
       }
+    
       
       
       return book; 
@@ -197,24 +198,70 @@ public class BookFormController extends BaseFormController {
   }
   
   /**
+   * Synchronize the targetBookItem with the sourceBookItemList. 
+   * @param referennceBookItemList
+   * @param targetBookItemList
+   */
+  private void updateBookItems(List<BookItem> targetBookItemList, List<BookItem>referennceBookItemList, Book book) {
+	 Map<Long, BookItem> sourceBookItemMap = convertBookItemListToMap(referennceBookItemList); 
+	 
+	 Iterator<BookItem> targetIterator = targetBookItemList.iterator(); 
+	 
+	 while (targetIterator.hasNext()) {
+		 BookItem targetBookItem = targetIterator.next(); 
+		 Long targetBookId = targetBookItem.getId(); 
+		 BookItem relevantSourceBookItem = sourceBookItemMap.get(targetBookId);
+		 //If the bookId already removed from the source list, it should be removed from the targetBookItemList.
+		 if (relevantSourceBookItem==null) {
+			 targetIterator.remove();
+			 bookItemManager.remove(targetBookItem); 
+		 } else {
+			 targetBookItem.setBarcode(relevantSourceBookItem.getBarcode()); 
+			 targetBookItem.setBook(book); 
+			 bookItemManager.save(targetBookItem); 
+		 }
+	 }
+	 
+	 for (BookItem sourceBookItem:referennceBookItemList) {
+		 if (sourceBookItem.getId()==null) {
+			 sourceBookItem.setBook(book); 
+			 targetBookItemList.add(sourceBookItem); 
+			 bookItemManager.save(sourceBookItem); 
+		 }
+	 }
+	 
+			
+	
+	 
+  }
+  
+  /**
+   * Convert the BookItemList to BOokItemMap. BookId is the key of the Map. 
+   * @param bookItemList
+   * @return
+   */
+  private Map<Long, BookItem> convertBookItemListToMap(List<BookItem>bookItemList) {
+	  Map<Long, BookItem> bookItemMap = new HashMap<Long, BookItem>(bookItemList.size()); 
+	  for (BookItem item:bookItemList) {
+		  bookItemMap.put(item.getId(), item); 
+	  }
+	  return bookItemMap; 
+  }
+  
+  /**
    * Remove the blank barcodes.
    * @param item
    */
-  private void refineItemBarcodes(Book book){
-	  if (book!=null) {
-		  List<BookItem>bookItemList = book.getItems(); 
-		  if (bookItemList!=null) {
-			  Iterator<BookItem> iterator = bookItemList.iterator(); 
-			  while(iterator.hasNext()) {
-				  String barcode = iterator.next().getBarcode(); 
-				  if (StringUtils.isBlank(barcode)) {
-					  iterator.remove(); 
-				  }
+  private void refineItemBarcodes(List<BookItem>bookItemList){
+	  if (bookItemList!=null) {
+		  Iterator<BookItem> iterator = bookItemList.iterator(); 
+		  while(iterator.hasNext()) {
+			  String barcode = iterator.next().getBarcode(); 
+			  if (StringUtils.isBlank(barcode)) {
+				  iterator.remove(); 
 			  }
 		  }
-		  
 	  }
-	  
   }
   
   private byte[] uploadCoverImage(FileUpload fileUpload, HttpServletRequest request) {

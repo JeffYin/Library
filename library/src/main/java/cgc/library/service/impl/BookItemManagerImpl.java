@@ -1,6 +1,10 @@
 package cgc.library.service.impl;
 
 // Start of user code for import
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +37,13 @@ public class BookItemManagerImpl extends GenericManagerImpl<BookItem,Long> imple
 
          // End of user code for consutuctor. 
     }
+
+	@Override
+	public List<BookItem> getBookItemList(Long bookId) {
+		Map<String, Object> queryParams = new HashMap<String, Object>(1); 
+		queryParams.put("bookId", bookId); 
+		List<BookItem> bookItemList = bookDao.findByNamedQuery("findItemsOfBook", queryParams);
+		return bookItemList;
+	}
     
 }

@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,6 +19,12 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
   @Entity
   @Table(name="book_item")
+  @NamedQueries ({
+	   @NamedQuery(
+		 name = "findItemsOfBook",
+		 query = "from BookItem item where item.book.id = :bookId"
+	    )	
+	})
 public class BookItem extends Item implements Serializable {
 
     /**
