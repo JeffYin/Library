@@ -49,9 +49,8 @@
     
     <div class="control-group">
         <appfuse:label styleClass="control-label" key="bibliography.dueDays"/>
-        <div class="controls input integer">
-            <form:input class="numberic integer" path="dueDays" id="dueDays" />
-            <span>1</span>
+        <div class="controls">
+            <form:input type="text" path="dueDays" id="dueDays" />
             <form:errors path="dueDays" cssClass="help-inline"/>
         </div>
     </div>
