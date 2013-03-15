@@ -92,4 +92,6 @@ public final class Constants {
     
     public static final String READER = "reader";
     
+    public static final String READER_LIST = "readerList";
+    
 }

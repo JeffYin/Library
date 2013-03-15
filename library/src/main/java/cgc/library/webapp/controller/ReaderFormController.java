@@ -31,7 +31,7 @@ public class ReaderFormController extends BaseFormController {
   private ReaderManager readerManager = null;
 
   @Autowired
-  public void setBookManager(ReaderManager readerManager) {
+  public void setReaderManager(ReaderManager readerManager) {
 		this.readerManager = readerManager;
   }
 
@@ -92,7 +92,7 @@ public class ReaderFormController extends BaseFormController {
           saveMessage(request, getText(key, locale));
 
           if (!isNew) {
-              success = "redirect:book?id=" + reader.getId();
+              success = "redirect:reader?id=" + reader.getId();
           }
       }
 
@@ -101,15 +101,16 @@ public class ReaderFormController extends BaseFormController {
   
   /**
    * Save the Reader. 
-   * @param book
+   * @param reader
    * @param request
    * @return
    * @throws SerialException
    * @throws SQLException
    */
-  private Reader saveReader(Reader book, HttpServletRequest request) throws SerialException, SQLException {
+  private Reader saveReader(Reader reader, HttpServletRequest request) throws SerialException, SQLException {
 	 //TODO: save the reader info. 
-      return book; 
+	  readerManager.save(reader); 
+      return reader; 
       
   }
   
