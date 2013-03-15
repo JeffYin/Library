@@ -25,7 +25,7 @@ public class PaginatedDaoHibernate<T, PK extends Serializable> extends GenericDa
 	}
 
     public PaginatedList<T> getAllPaginated(PaginatedList<T> thePage) {
-        Session session = getSessionFactory().getCurrentSession();
+        Session session = getSession();
         // obtain all instances of a class:
         Criteria criteria = session.createCriteria(super.persistentClass);
         // let's see how many instances are in total:
@@ -54,7 +54,7 @@ public class PaginatedDaoHibernate<T, PK extends Serializable> extends GenericDa
     public PaginatedList<T> getPaginatedListByQuery(
             PaginatedList<T> thePage, String qryString,
             LinkedHashMap<String, String> qryParams) {
-        Session session = getSessionFactory().getCurrentSession();
+        Session session = getSession();
         Query query = session.createQuery(qryString).setFirstResult(thePage.getFirstRecordIndex()).setMaxResults(thePage.getPageSize());
         query.setProperties(qryParams);
         thePage.setList(query.list());
@@ -64,7 +64,7 @@ public class PaginatedDaoHibernate<T, PK extends Serializable> extends GenericDa
     public PaginatedList<T> getPaginatedListByQuery(
             PaginatedList<T> thePage, String queryString,
             List<Object> params) {
-        Session session = getSessionFactory().getCurrentSession();
+        Session session = getSession();
         if (thePage.getSortCriterion() != null){
             if (thePage.getSortDir().equals(SortOrder.ASCENDING)){
                 queryString = queryString.concat(" order by " + Order.asc(thePage.getSortCriterion()).toString());
@@ -81,7 +81,7 @@ public class PaginatedDaoHibernate<T, PK extends Serializable> extends GenericDa
     }
     
     public long getTotalCountOfRowsByQuery(String countQueryString, List<Object> params) {
-        Session session = getSessionFactory().getCurrentSession();
+        Session session = getSession();
         Query query = session.createQuery(countQueryString);
         setParameters(query, params);
         Long longValue = (Long) query.uniqueResult();
@@ -89,7 +89,7 @@ public class PaginatedDaoHibernate<T, PK extends Serializable> extends GenericDa
     }
 
     public long getTotalCountOfRowsByQuery(String countQueryString, LinkedHashMap<String, String> params) {
-        Session session = getSessionFactory().getCurrentSession();
+        Session session = getSession();
         Query query = session.createQuery(countQueryString);
         setParameters(query, params);
         Long longValue = (Long) query.uniqueResult();
