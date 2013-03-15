@@ -18,6 +18,10 @@
 		 <mapping class="cgc.library.model.Role"/>
 		 <mapping class="cgc.library.model.Tag"/>
 		 <mapping class="cgc.library.model.User"/>
+		 
+		 <!-- Reader and Borrow -->
+		 <mapping class="cgc.library.model.Reader"/>
+		 <mapping class="cgc.library.model.BorrowRecord"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -1,21 +1,30 @@
 package cgc.library.model;
 
 // Start of user code for imports
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import cgc.library.model.BaseObject;
-
 // End of user code for imports
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 /**
  */
- 
-import javax.persistence.*;
 
   @Entity
   @Table(name="item")
@@ -44,7 +53,7 @@ public class Item extends BaseObject implements Serializable {
      */
     private Library library;
 
-
+    private List<BorrowRecord> borrowRecords; 
 
 	/* To support bidirectional databinding */
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -133,15 +142,22 @@ public class Item extends BaseObject implements Serializable {
         library = someLibrary;
     }
  
+
+	 @OneToMany(mappedBy="item")          
+	public List<BorrowRecord> getBorrowRecords() {
+	        return borrowRecords;
+     }
+  			
+	/**
+   * Sets a value to parameter Items.
+   * @param someBorrowRecords
+   *            
+   */
+  public void setBorrowRecords(final List<BorrowRecord> someBorrowRecords) {
+      borrowRecords = someBorrowRecords;
+  }
+
     
-    
-
-
-
-
-
-
-   
     /**
      * Equality test based on attributes values.
      * @param other Value to compare
