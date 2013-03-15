@@ -55,7 +55,7 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     protected Class<T> persistentClass;
     @Resource
     private SessionFactory sessionFactory;
-    private Analyzer defaultAnalyzer;
+    private final Analyzer defaultAnalyzer;
 
     /**
      * Constructor that takes in a class to see which type of entity to persist.
@@ -101,7 +101,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public List<T> getAll() {
         Session sess = getSession();
         return sess.createCriteria(persistentClass).list();
@@ -110,7 +111,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public List<T> getAllDistinct() {
         Collection<T> result = new LinkedHashSet<T>(getAll());
         return new ArrayList<T>(result);
@@ -119,7 +121,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    public List<T> search(String searchTerm) throws SearchException {
+    @Override
+	public List<T> search(String searchTerm) throws SearchException {
         Session sess = getSession();
         FullTextSession txtSession = Search.getFullTextSession(sess);
 
@@ -137,7 +140,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public T get(PK id) {
         Session sess = getSession();
         IdentifierLoadAccess byId = sess.byId(persistentClass);
@@ -154,7 +158,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public boolean exists(PK id) {
         Session sess = getSession();
         IdentifierLoadAccess byId = sess.byId(persistentClass);
@@ -165,7 +170,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public T save(T object) {
         Session sess = getSession();
         return (T) sess.merge(object);
@@ -174,7 +180,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    public void remove(T object) {
+    @Override
+	public void remove(T object) {
         Session sess = getSession();
         sess.delete(object);
     }
@@ -182,7 +189,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    public void remove(PK id) {
+    @Override
+	public void remove(PK id) {
         Session sess = getSession();
         IdentifierLoadAccess byId = sess.byId(persistentClass);
         T entity = (T) byId.load(id);
@@ -192,7 +200,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams) {
         Session sess = getSession();
         Query namedQuery = sess.getNamedQuery(queryName);
@@ -207,7 +216,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    public void reindex() {
+    @Override
+	public void reindex() {
         HibernateSearchTools.reindex(persistentClass, getSessionFactory().getCurrentSession());
     }
 
@@ -215,7 +225,10 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    public void reindexAll(boolean async) {
+    @Override
+	public void reindexAll(boolean async) {
         HibernateSearchTools.reindexAll(async, getSessionFactory().getCurrentSession());
     }
+
+	
 }

@@ -90,6 +90,6 @@ public final class Constants {
     
     public static final String ItemBarcodes = "Item_Barcodes";
     
-    
+    public static final String READER = "reader";
     
 }

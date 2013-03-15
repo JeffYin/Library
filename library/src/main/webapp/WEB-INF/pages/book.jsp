@@ -46,6 +46,14 @@
             <form:errors path="author" cssClass="help-inline"/>
         </div>
     </div>
+    
+    <div class="control-group">
+        <appfuse:label styleClass="control-label" key="bibliography.dueDays"/>
+        <div class="controls">
+            <form:input type="text" path="dueDays" id="dueDays" />
+            <form:errors path="dueDays" cssClass="help-inline"/>
+        </div>
+    </div>
 
     <div class="control-group">
         <appfuse:label styleClass="control-label" key="book.publisher"/>
