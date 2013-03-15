@@ -97,7 +97,7 @@ public class BookFormController extends BaseFormController {
 	  
 	  
 	  model.addAttribute(Constants.BOOK, book); 
-	  return new ModelAndView("book", model.asMap());
+	  return new ModelAndView(Constants.BOOK, model.asMap());
   }
   
   
