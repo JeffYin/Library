@@ -34,6 +34,30 @@
             <form:errors path="cardId" cssClass="help-inline"/>
         </div>
     </div>
+
+    <div class="control-group">
+        <appfuse:label styleClass="control-label" key="reader.mainPhone"/>
+        <div class="controls">
+            <form:input path="mainPhone" id="cardId" maxlength="32"/>
+            <form:errors path="mainPhone" cssClass="help-inline"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <appfuse:label styleClass="control-label" key="reader.alterPhone"/>
+        <div class="controls">
+            <form:input path="alterPhone" id="cardId" maxlength="32"/>
+            <form:errors path="alterPhone" cssClass="help-inline"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <appfuse:label styleClass="control-label" key="reader.email"/>
+        <div class="controls">
+            <form:input path="email" id="cardId" maxlength="32"/>
+            <form:errors path="email" cssClass="help-inline"/>
+        </div>
+    </div>
     
     
    
