@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -54,6 +53,8 @@ public class Item extends BaseObject implements Serializable {
     private Library library;
 
     private List<BorrowRecord> borrowRecords; 
+    
+    private ItemStatus itemStatus; 
 
 	/* To support bidirectional databinding */
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -120,20 +121,16 @@ public class Item extends BaseObject implements Serializable {
     
  
  
+    
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  	@JoinTable(
-  	    name="item_library",
-        joinColumns=@JoinColumn(name="ITEM_ID"),
-        inverseJoinColumns=@JoinColumn(name="LIBRARY_ID")          		
-        )
-                	public Library getLibrary() {
-	        
+    @JoinColumn(name = "LIBRARY_ID", nullable = false)
+      public Library getLibrary() {
 	        return library;
     }
     			
              
              
-                  /**
+    /**
      * Sets a value to parameter library.
      * @param someLibrary
      *            
@@ -148,6 +145,17 @@ public class Item extends BaseObject implements Serializable {
 	        return borrowRecords;
      }
   			
+	 
+	 @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	 @JoinColumn(name = "ITEM_STATUS_ID", nullable = false)
+	public ItemStatus getItemStatus() {
+		return itemStatus;
+	}
+
+	public void setItemStatus(ItemStatus itemStatus) {
+		this.itemStatus = itemStatus;
+	}
+
 	/**
    * Sets a value to parameter Items.
    * @param someBorrowRecords

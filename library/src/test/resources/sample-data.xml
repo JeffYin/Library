@@ -4922,10 +4922,7 @@ pQClKUApSlAf/9k=]]></value>
     <column>id</column>
     <column>name</column>
   </table>
-  <table name="item_library">
-    <column>LIBRARY_ID</column>
-    <column>ITEM_ID</column>
-  </table>
+  
   <table name="publisher">
     <column>id</column>
     <column>name</column>

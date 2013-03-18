@@ -45,5 +45,7 @@ public class BorrowRecordController {
 		model.addAttribute(Constants.BORROW_RECORD, borrowRecord); 
 	     return new ModelAndView("checkout", model.asMap());
 	}
+	
+	
 
 }

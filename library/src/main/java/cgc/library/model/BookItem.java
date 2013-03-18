@@ -69,7 +69,7 @@ public class BookItem extends Item implements Serializable {
     			
              
              
-                  /**
+    /**
      * Sets a value to parameter book.
      * @param someBook
      *            
