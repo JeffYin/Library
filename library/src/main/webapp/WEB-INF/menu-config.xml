@@ -14,6 +14,7 @@
         </Menu>
         <Menu name="Book" title="mainMenu.bibliography" description="Bibliography Management" page="/books" roles="ROLE_ADMIN,ROLE_USER"/>
         <Menu name="Reader" title="mainMenu.readers" description="Reader Management" page="/readers" roles="ROLE_ADMIN,ROLE_USER"/>
+        <Menu name="Circulation" title="menu.circulation" description="circulation" page="/circulation/checkout" roles="ROLE_ADMIN,ROLE_USER"/>
         <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER"/>
     </Menus>
 </MenuConfig>

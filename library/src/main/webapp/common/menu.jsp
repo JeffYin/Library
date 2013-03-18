@@ -10,6 +10,7 @@
     </c:if>
     <menu:displayMenu name="MainMenu"/>
     <menu:displayMenu name="UserMenu"/>
+    <menu:displayMenu name="Circulation"/>
     <menu:displayMenu name="Book"/>
     <menu:displayMenu name="Reader"/>
     <menu:displayMenu name="AdminMenu"/>
