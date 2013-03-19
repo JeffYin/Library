@@ -16,14 +16,20 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-// End of user code for imports
-/**
- */
+
+@NamedQueries ({
+	   @NamedQuery(
+		 name = "findItemsByBarcode",
+		 query = "from Item item where item.barcode = :barcode"
+	    )	
+	})
 
   @Entity
   @Table(name="item")
@@ -54,7 +60,8 @@ public class Item extends BaseObject implements Serializable {
 
     private List<BorrowRecord> borrowRecords; 
     
-    private ItemStatus itemStatus; 
+    
+    private Integer itemStatus; 
 
 	/* To support bidirectional databinding */
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -146,13 +153,11 @@ public class Item extends BaseObject implements Serializable {
      }
   			
 	 
-	 @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	 @JoinColumn(name = "ITEM_STATUS_ID", nullable = false)
-	public ItemStatus getItemStatus() {
+	public Integer getItemStatus() {
 		return itemStatus;
 	}
 
-	public void setItemStatus(ItemStatus itemStatus) {
+	public void setItemStatus(Integer itemStatus) {
 		this.itemStatus = itemStatus;
 	}
 
