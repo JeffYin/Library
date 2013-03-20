@@ -22,7 +22,6 @@
 		 <!-- Reader and Borrow -->
 		 <mapping class="cgc.library.model.Reader"/>
 		 <mapping class="cgc.library.model.BorrowRecord"/>
-		 <mapping class="cgc.library.model.ItemStatus"/>
 
     </session-factory>
 </hibernate-configuration>
