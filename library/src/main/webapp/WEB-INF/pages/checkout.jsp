@@ -12,7 +12,7 @@
 </div>
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="borrowRecord" method="post" action="checkout" id="borrowItemForm"  cssClass="well form-horizontal" >
+    <form:form commandName="borrowRecord" method="get" action="checkout" id="borrowItemForm"  cssClass="well form-horizontal" >
      
     <div class="control-group">
         <appfuse:label styleClass="control-label" key="reader.cardId"/>
@@ -35,16 +35,16 @@
     
    
     <div class="form-actions">
-        <button type="submit" class="btn btn-primary" name="save">
+        <button type="button" class="btn" name="save">
             <i class="icon-ok icon-white"></i> <fmt:message key="button.save"/>
         </button>
    
         <c:if test="${not empty reader.id}">
-          <button type="submit" class="btn" name="delete">
+          <button type="button" class="btn" name="delete">
               <i class="icon-trash"></i> <fmt:message key="button.delete"/>
           </button>
         </c:if>
-        <button type="submit" class="btn" name="cancel">
+        <button type="button" class="btn" name="cancel">
             <i class="icon-remove"></i> <fmt:message key="button.cancel"/>
         </button>
     </div>
@@ -54,20 +54,20 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("input[type='text']:visible:enabled:first", document.forms['reader']).focus();
-               
      
 	    $('.date').datepicker({
 	    	format:"yyyy-mm-dd"
 	    }); 
-	    
-    }
+    });   
+ 
     
     var itemBarcodeScanned = 'itemBarcodeScanned';
     $("#itemBarcode").keypress(function(e) {
     		if(e.keyCode == 13) {
 				 barcode = $("#itemBarcode").val();
 				 $.ajax({
-						url: "@{BorrowItems.scanItem()}",
+					    type: "POST",
+						url: "scanItem",
 						dataType: "json",
 						data: {
 							barcode: barcode
@@ -127,6 +127,8 @@
    	 
    	 return scanned;
     }
+    
+
 </script>
 
  

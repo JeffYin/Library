@@ -70,7 +70,7 @@ public class BorrowRecordController {
 	}
 	
 
-	@RequestMapping(value="/scanItem", method = RequestMethod.GET)
+	@RequestMapping(value="/scanItem", method = RequestMethod.POST)
 	public void scanItem(String barcode, HttpServletResponse response) throws Exception {
 		Map<String, Object> queryParams  = new HashMap<String, Object>(1); 
 		queryParams.put("barcode", barcode); 

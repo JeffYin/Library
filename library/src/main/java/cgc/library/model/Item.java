@@ -24,6 +24,8 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import cgc.library.Globals;
+
 @NamedQueries ({
 	   @NamedQuery(
 		 name = "findItemsByBarcode",
@@ -61,7 +63,7 @@ public class Item extends BaseObject implements Serializable {
     private List<BorrowRecord> borrowRecords; 
     
     
-    private Integer itemStatus; 
+    private Integer itemStatus= Globals.ItemStatus_Shelf; 
 
 	/* To support bidirectional databinding */
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -130,7 +132,7 @@ public class Item extends BaseObject implements Serializable {
  
     
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "LIBRARY_ID", nullable = false)
+    @JoinColumn(name = "LIBRARY_ID", nullable = true)
       public Library getLibrary() {
 	        return library;
     }
