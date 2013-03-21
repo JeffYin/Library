@@ -13,6 +13,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,7 +33,13 @@ import javax.persistence.Table;
 
   @Entity
   @Table(name="bibliography")
-@Inheritance(strategy=InheritanceType.JOINED)
+  @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+  @DiscriminatorColumn(name="type", discriminatorType=DiscriminatorType.INTEGER)
+  /*
+   * type = 1 -> Book 
+   * @author JeffY
+   *
+   */
 public class Bibliography extends BaseObject implements Serializable {
 
     /**

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
   @Entity
   @Table(name="book")
+  @DiscriminatorValue(value="1")
 public class Book extends Bibliography implements Serializable {
 
     /**
