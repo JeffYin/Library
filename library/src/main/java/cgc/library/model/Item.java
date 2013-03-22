@@ -60,6 +60,13 @@ public class Item extends BaseObject implements Serializable {
      */
     private Library library;
 
+    
+    /**
+     * Field book.
+     */
+    private Bibliography bibliography;
+    
+    
     private List<BorrowRecord> borrowRecords; 
     
     
@@ -148,6 +155,26 @@ public class Item extends BaseObject implements Serializable {
         library = someLibrary;
     }
  
+    
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "BIBLIOGRAPHY_ID", nullable = false)
+     public Bibliography getBibliography() {
+	        return bibliography;
+    }
+    			
+             
+             
+    /**
+     * Sets a value to parameter book.
+     * @param bibliography
+     *            
+     */
+    public void setBibliography(final Bibliography bibliography) {
+    	this.bibliography = bibliography;
+    }
+ 
+    
 
 	 @OneToMany(mappedBy="item")          
 	public List<BorrowRecord> getBorrowRecords() {

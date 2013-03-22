@@ -24,6 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 // End of user code for imports
 /**
@@ -99,6 +100,12 @@ public class Bibliography extends BaseObject implements Serializable {
      * Field tag.
      */
     private List<Tag>  tags = new LinkedList<Tag>();
+    
+    
+    /**
+     * Field Items.
+     */
+    private List<Item> items = new LinkedList<Item>();;
     
     
     /**
@@ -394,6 +401,41 @@ public class Bibliography extends BaseObject implements Serializable {
 		this.dueDays = dueDays;
 	}
 
+	
+
+	 @OneToMany(mappedBy="bibliography")          
+	public List<Item> getItems() {
+	        return items;
+   }
+   			
+   public void setItems(final List<Item> someItems) {
+       items = someItems;
+   }
+	  
+
+	/**
+     * Adds a BookItem to the Items Collection.
+     * Birectionnal association : add the current  instance to
+     * the given Items parameter.
+     * @param ItemsElt Element to add
+     */
+    public void addBookItem(final Item ItemsElt) {
+        items.add(ItemsElt);
+        ItemsElt.setBibliography(this);
+    }
+    
+    /**
+     * Removes a BookItem from the Items Collection.
+     * Birectionnal association : remove the current  instance
+     * from the given Items parameter.
+     * @param ItemsElt Element to remove
+     */
+    public void removeBookItem(final BookItem ItemsElt) {
+        items.remove(ItemsElt);
+        ItemsElt.setBibliography(null);
+    }
+
+    
 	/**
      * Equality test based on attributes values.
      * @param other Value to compare

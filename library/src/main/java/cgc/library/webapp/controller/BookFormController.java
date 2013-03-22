@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cgc.library.Constants;
 import cgc.library.model.Book;
 import cgc.library.model.BookItem;
+import cgc.library.model.Item;
 import cgc.library.model.Tag;
 import cgc.library.service.BookItemManager;
 import cgc.library.service.BookManager;
@@ -84,7 +85,7 @@ public class BookFormController extends BaseFormController {
 	  
 	 
 	  if (book!=null) {
-		  List<BookItem> items = book.getItems(); 
+		  List<Item> items = book.getItems(); 
 			 if (items==null || items.size()==0) {
 				 BookItem item = new BookItem(); 
 			     book.addBookItem(item); 
@@ -217,14 +218,14 @@ public class BookFormController extends BaseFormController {
 			 bookItemManager.remove(targetBookItem); 
 		 } else {
 			 targetBookItem.setBarcode(relevantSourceBookItem.getBarcode()); 
-			 targetBookItem.setBook(book); 
+			 targetBookItem.setBibliography(book); 
 			 bookItemManager.save(targetBookItem); 
 		 }
 	 }
 	 
 	 for (BookItem sourceBookItem:referennceBookItemList) {
 		 if (sourceBookItem.getId()==null) {
-			 sourceBookItem.setBook(book); 
+			 sourceBookItem.setBibliography(book); 
 			 targetBookItemList.add(sourceBookItem); 
 			 bookItemManager.save(sourceBookItem); 
 		 }

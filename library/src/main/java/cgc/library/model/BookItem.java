@@ -3,10 +3,7 @@ package cgc.library.model;
 // Start of user code for imports
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -22,7 +19,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
   @NamedQueries ({
 	   @NamedQuery(
 		 name = "findItemsOfBook",
-		 query = "from BookItem item where item.book.id = :bookId"
+		 query = "from BookItem item where item.bibliography.id = :bookId"
 	    )	
 	})
 public class BookItem extends Item implements Serializable {
@@ -31,14 +28,6 @@ public class BookItem extends Item implements Serializable {
      * serialVersionUID is used for serialization.
      */
     private static final long serialVersionUID = 54003148170080640L;
-
-
-    /**
-     * Field book.
-     */
-    private Book book;
-
-
 
 	
     /**
@@ -49,44 +38,7 @@ public class BookItem extends Item implements Serializable {
     }
 
 
-    /**
-     * Constructor with all parameters initialized.
-     * @param someBook
-     *           
-     */
-    public BookItem(Book someBook) {
-        book = someBook;
-    }
-
-    
  
- 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "BOOK_ID", nullable = false)
-     public Book getBook() {
-	        return book;
-    }
-    			
-             
-             
-    /**
-     * Sets a value to parameter book.
-     * @param someBook
-     *            
-     */
-    public void setBook(final Book someBook) {
-        book = someBook;
-    }
- 
-    
-    
-
-
-
-
-
-
-   
     /**
      * Equality test based on attributes values.
      * @param other Value to compare
@@ -107,11 +59,6 @@ public class BookItem extends Item implements Serializable {
         Long id=getId();
         if (id != null && castedOther.getId() != null) {
             return id.equals(castedOther.getId());
-        }
-        if ((book == null && castedOther.getBook() != null) 
-             || (book != null && !book.equals(
-                castedOther.getBook()))){
-           return false;
         }
         return true;
         // End of user code for equals

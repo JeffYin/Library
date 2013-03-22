@@ -21,6 +21,7 @@ import cgc.library.Constants;
 import cgc.library.Globals;
 import cgc.library.model.BorrowRecord;
 import cgc.library.model.Item;
+import cgc.library.model.Reader;
 import cgc.library.service.BorrowRecordManager;
 import cgc.library.service.ItemManager;
 import cgc.library.service.ReaderManager;
@@ -82,8 +83,8 @@ public class BorrowRecordController {
 			
 			Integer itemStatus = item.getItemStatus(); 
 			if ((itemStatus!=null) && (itemStatus.equals(Globals.ItemStatus_Shelf))) {
-				JSONSerializer serializer = new JSONSerializer().include("name","id").exclude("*"); 
-				String feedback = serializer.serialize(items);
+				JSONSerializer serializer = new JSONSerializer().include("bibliography.title","id","barcode").exclude("*"); 
+				String feedback = serializer.serialize(item);
 				response.getWriter().print(feedback);
 			} else {
 				response.setStatus(Globals.Error_Item_NotOnShelf); /* Item is not on the shelves */
@@ -96,21 +97,31 @@ public class BorrowRecordController {
 		}
 	}
 	
-	/*
-	@RequestMapping(value="/scanLibrarycard", method = RequestMethod.GET)
-	public void scanLibraryCard(String librarycardBarcode) throws Exception {
+	/**
+	 * Get reader's info according to the library barcode. 
+	 */
+	@RequestMapping(value="/scanLibraryCard", method = RequestMethod.POST)
+	public void scanLibraryCard(String barcode, HttpServletResponse response) throws Exception {
 		Map<String, Object> queryParams = new HashMap<String, Object>(1);
-		queryParams.put("cardId", "%"+librarycardBarcode +"%"); 
-		List<Reader> readers = readerManager.findByNamedQuery("findReaderByCardId", queryParams); 
-		if (readers.size()>=1) {
-			flash.put("libraryCardBarcode", readers.get(0).getCardId());
+		queryParams.put("cardId", "%"+barcode +"%"); 
+		List<Reader> readerList = readerManager.findByNamedQuery("findReaderByCardId", queryParams); 
+		int numberFound = readerList.size();
+		if (numberFound==1) { /* found the exact item */
+			Reader reader = readerList.get(0);
+			//Check the Status
+	
+			JSONSerializer serializer = new JSONSerializer().include("cardId","id","name").exclude("*"); 
+			String feedback = serializer.serialize(reader);
+			response.getWriter().print(feedback);
 
-			//TODO: prepare the page of scanning the material barcode.  
-			render("BorrowItems/scanItem.html");
+		} else if (numberFound==0) { /* found nothing */
+			response.setStatus(Globals.Error_Item_FoundNothing);
+		} else { /* more than one items found */
+            response.setStatus(Globals.Error_Item_FoundMoreThanOne);			
 		}
 
 	}
-	*/
+	
 
 	/**
 	 * Complete the checkout action. 
