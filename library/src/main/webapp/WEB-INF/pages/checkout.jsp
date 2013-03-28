@@ -19,6 +19,8 @@
         <div class="controls">
             <input type="text" name="cardBarcode" id="cardBarcode" maxlength="50" placeholder="<fmt:message key='webapp.scan.librarycard'/>"/>
 	        <div class="controls" id="divScannedLibraryCard">
+	            <input type='hidden' id='readerId' name='readerId'>
+	            <label id="readerName"></label>
 	        </div>
         </div>
     </div>
@@ -80,11 +82,10 @@
 						var readerId = item.id;
 						var name = item.name;
 		
-						var inputBarcode = $("<input type='text'>").attr('name', 'readerId').val(readerId);
-						inputBarcode.appendTo("#divScannedLibraryCard");
+						$("#readerId").val(readerId); 
 						
-						var bookInfoLabel = $("<label />").text(barcode + ":" + name);
-						bookInfoLabel.appendTo("#divScannedLibraryCard");
+						$("#readerName").text(name);
+						
 						 $("#itemBarcode").val("");
 						 $("#itemBarcode").focus();
 						 
