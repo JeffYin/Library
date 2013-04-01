@@ -88,6 +88,10 @@ public class Reader extends BaseObject implements Serializable {
 		super();
 	}
 
+	public Reader(Long readerId) {
+		super(); 
+		this.id = readerId; 
+	}
 	/**
 	 * Returns the identifier.
 	 * 

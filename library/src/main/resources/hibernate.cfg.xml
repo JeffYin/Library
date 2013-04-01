@@ -22,6 +22,10 @@
 		 <!-- Reader and Borrow -->
 		 <mapping class="cgc.library.model.Reader"/>
 		 <mapping class="cgc.library.model.BorrowRecord"/>
+		 <mapping class="cgc.library.model.LoanPeriod"/>
+		 
+		 <!-- System configuration -->
+		 
 
     </session-factory>
 </hibernate-configuration>

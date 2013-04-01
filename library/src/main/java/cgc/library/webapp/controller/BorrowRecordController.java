@@ -1,6 +1,7 @@
 package cgc.library.webapp.controller;
 
 // Start of user code for import
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,27 +124,42 @@ public class BorrowRecordController {
 	}
 	
 
+	
 	/**
 	 * Complete the checkout action. 
 	 * @param libraryCardBarcode
 	 * @param itemBarcodeScanned
+	 * @throws Exception 
 	 */
-	/*
-	public void checkout(String libraryCardBarcode,String[] itemBarcodeScanned) {
-		System.out.println(libraryCardBarcode);
+	//*
+	@RequestMapping(value="/checkout", method = RequestMethod.POST)
+	public void submitCheckout(Long readerId,String[] itemBarcodeScanned) throws Exception {
+		
+		System.out.println(readerId);
 
 		//Get the userId of the library card. 
-		LibraryCard libCard = LibraryCard.find("barcode = ?", libraryCardBarcode).first();
-		User reader = null;
-
-		if (libCard!=null) {
-			//TODO:Check if the libraryCard is still available. 
-
-			//get the userId
-//			userId = libCard.user.personId;
-			reader = libCard.user;
+		
+		Reader reader = new Reader(readerId);
+		Map<String, Object> queryParams = new HashMap<String, Object>(0); 
+		
+		for (String itemBarcode: itemBarcodeScanned) {
+			queryParams.put("barcode", itemBarcode); 
+			List<Item> itemList = itemManager.findByNamedQuery("findItemsByBarcode", queryParams); 
+			if (itemList.size()!=1) {
+				String message = String.format("Barcode %s does not exist or there are more than one items are using this barcode! ", itemBarcode); 
+			   	throw new Exception(message); 
+			}
+			
+			BorrowRecord record = new BorrowRecord(); 
+			
+			
+			record.setReader(reader);
+			record.setItem(itemList.get(0)); 
+			record.setBorrowDate(new Date()); 
+			
 		}
-
+		
+         /*
 		for (String itemBarcode: itemBarcodeScanned) {
 			//TODO: Check if the item is expired.  
 
@@ -171,16 +187,12 @@ public class BorrowRecordController {
 		}
 
 		redirect("/borrowitems/list");
+		*/
 
 	}
         
 
-		private String toJson(Item item) {
-			JSONSerializer libraryCardListSerializer = new JSONSerializer().include("barcode", "name").exclude("*");
-			String json = libraryCardListSerializer.serialize(item);
-			return json;
-		}
-		
-		*/
+	
+		//*/
 
 }

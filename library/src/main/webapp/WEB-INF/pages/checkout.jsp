@@ -12,7 +12,7 @@
 </div>
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="borrowRecord" method="get" action="checkout" id="borrowItemForm"  cssClass="well form-horizontal" >
+    <form:form commandName="borrowRecord" method="post" action="checkout" id="borrowItemForm"  cssClass="well form-horizontal" >
      
     <div class="control-group">
         <appfuse:label styleClass="control-label" key="reader.cardId"/>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="form-actions">
-        <button type="button" class="btn btn-primary" name="save">
+        <button type="button" class="btn btn-primary" name="save" onclick="submit();">
             <i class="icon-ok icon-white"></i> <fmt:message key="button.save"/>
         </button>
    
@@ -185,6 +185,9 @@
    	 return scanned;
     }
     
+    function submit() {
+    	$("borrowItemForm").submit(); 
+    }
 
 </script>
 
