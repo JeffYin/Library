@@ -4652,4 +4652,13 @@ pQClKUApSlAf/9k=]]></value>
       <value>-2</value>
     </row>
   </table>
+  
+  <table name="loan_period">
+    <column>bookLoanPeriod</column>
+    <column>movieLoanPeriod</column>
+    <row>
+       <value>21</value>
+       <value>7</value>
+    </row>
+  </table>
 </dataset>
