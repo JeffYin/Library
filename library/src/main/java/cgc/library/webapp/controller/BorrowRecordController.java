@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
@@ -22,9 +23,11 @@ import cgc.library.Constants;
 import cgc.library.Globals;
 import cgc.library.model.BorrowRecord;
 import cgc.library.model.Item;
+import cgc.library.model.LoanPeriod;
 import cgc.library.model.Reader;
 import cgc.library.service.BorrowRecordManager;
 import cgc.library.service.ItemManager;
+import cgc.library.service.LoanPeriodManager;
 import cgc.library.service.ReaderManager;
 import flexjson.JSONSerializer;
 
@@ -41,6 +44,7 @@ public class BorrowRecordController {
    private  BorrowRecordManager borrowRecordManager = null;
    private  ItemManager itemManager = null;
    private  ReaderManager readerManager = null;
+   private  LoanPeriodManager loanPeriodManager = null; 
    
    @Autowired
    public void setBorrowRecordManager(BorrowRecordManager borrowRecordManager) {
@@ -51,8 +55,12 @@ public class BorrowRecordController {
    public void setItemManager(ItemManager itemManager) {
 	   this.itemManager = itemManager;
    }
+   
+   public void setLoanPeriodManager(LoanPeriodManager loanPeriodManager) {
+	this.loanPeriodManager = loanPeriodManager;
+}
 
-   @Autowired
+@Autowired
    public void setReaderManager(ReaderManager readerManager) {
 	   this.readerManager = readerManager;
    }
@@ -151,12 +159,26 @@ public class BorrowRecordController {
 			}
 			
 			BorrowRecord record = new BorrowRecord(); 
-			
+		    Item item = itemList.get(0); 	
 			
 			record.setReader(reader);
-			record.setItem(itemList.get(0)); 
+			record.setItem(item); 
 			record.setBorrowDate(new Date()); 
+			Integer dueDays = item.getBibliography().getDueDays(); 
+			if ((dueDays==null)||(dueDays<=0)) {
+				LoanPeriod loanPeriod = loanPeriodManager.getAll().get(0); 			
+				dueDays = loanPeriod.getBookLoanPeriod(); 
+			}
 			
+			if ((dueDays==null)||(dueDays<=0)) {
+				dueDays = Globals.Default_Loan_Period; 
+			}
+			
+			Date dueDate = new DateTime().plus(dueDays).toDate(); 
+			record.setDueDate(dueDate); 
+			
+			
+		
 		}
 		
          /*
