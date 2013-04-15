@@ -29,7 +29,6 @@ import javax.persistence.Table;
 // End of user code for imports
 /**
  */
-
   @Entity
   @Table(name="bibliography")
 @Inheritance(strategy=InheritanceType.JOINED)

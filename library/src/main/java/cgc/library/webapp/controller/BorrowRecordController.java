@@ -23,7 +23,6 @@ import cgc.library.Constants;
 import cgc.library.Globals;
 import cgc.library.model.BorrowRecord;
 import cgc.library.model.Item;
-import cgc.library.model.LoanPeriod;
 import cgc.library.model.Reader;
 import cgc.library.service.BorrowRecordManager;
 import cgc.library.service.ItemManager;
@@ -56,6 +55,7 @@ public class BorrowRecordController {
 	   this.itemManager = itemManager;
    }
    
+   @Autowired
    public void setLoanPeriodManager(LoanPeriodManager loanPeriodManager) {
 	this.loanPeriodManager = loanPeriodManager;
 }
@@ -91,10 +91,14 @@ public class BorrowRecordController {
 			//Check the Status
 			
 			Integer itemStatus = item.getItemStatus(); 
-			if ((itemStatus!=null) && (itemStatus.equals(Globals.ItemStatus_Shelf))) {
+			if (itemStatus!=null) {
+				if (itemStatus.equals(Globals.ItemStatus_Shelf)) {
 				JSONSerializer serializer = new JSONSerializer().include("bibliography.title","id","barcode").exclude("*"); 
 				String feedback = serializer.serialize(item);
 				response.getWriter().print(feedback);
+				} else {
+					response.setStatus(itemStatus); 
+				}
 			} else {
 				response.setStatus(Globals.Error_Item_NotOnShelf); /* Item is not on the shelves */
 			}
@@ -141,13 +145,13 @@ public class BorrowRecordController {
 	 */
 	//*
 	@RequestMapping(value="/checkout", method = RequestMethod.POST)
-	public void submitCheckout(Long readerId,String[] itemBarcodeScanned) throws Exception {
+	public ModelAndView submitCheckout(Long readerId,String[] itemBarcodeScanned) throws Exception {
 		
 		System.out.println(readerId);
 
 		//Get the userId of the library card. 
 		
-		Reader reader = new Reader(readerId);
+		Reader reader = readerManager.get(readerId);
 		Map<String, Object> queryParams = new HashMap<String, Object>(0); 
 		
 		for (String itemBarcode: itemBarcodeScanned) {
@@ -159,58 +163,28 @@ public class BorrowRecordController {
 			}
 			
 			BorrowRecord record = new BorrowRecord(); 
-		    Item item = itemList.get(0); 	
+		    Item item = itemList.get(0); 
+		    
+		   //Change Item status
+		    item.setItemStatus(Globals.ItemStatus_Borrowed); 
 			
 			record.setReader(reader);
 			record.setItem(item); 
 			record.setBorrowDate(new Date()); 
 			Integer dueDays = item.getBibliography().getDueDays(); 
 			if ((dueDays==null)||(dueDays<=0)) {
-				LoanPeriod loanPeriod = loanPeriodManager.getAll().get(0); 			
-				dueDays = loanPeriod.getBookLoanPeriod(); 
-			}
-			
-			if ((dueDays==null)||(dueDays<=0)) {
-				dueDays = Globals.Default_Loan_Period; 
+				dueDays = loanPeriodManager.getDefaultDueDays(item); 
 			}
 			
 			Date dueDate = new DateTime().plus(dueDays).toDate(); 
 			record.setDueDate(dueDate); 
 			
-			
-		
+			//save the 
+			borrowRecordManager.save(record); 
+			itemManager.save(item); 
 		}
-		
-         /*
-		for (String itemBarcode: itemBarcodeScanned) {
-			//TODO: Check if the item is expired.  
-
-			Item item = Item.find("barcode = ?", itemBarcode).first();
-			Integer dueDay = item.dueDay;
-			//Get the due Date of the
-			if (dueDay==null) {
-				dueDay = Integer.parseInt(Play.configuration.getProperty("default_due_day"));
-			}
-
-			BorrowItem borrowItem = new BorrowItem(); 
-			borrowItem.item = item; 
-			borrowItem.libraryCardBarcode = libraryCardBarcode;
-//			borrowItem.userId = userId;
-			borrowItem.reader = reader; 
-			borrowItem.dueDate = new DateTime().plusDays(dueDay).toDate();
-			borrowItem.borrowedDate = new DateTime().toDate();
-
-			borrowItem.save();
-
-			//Change the status of the Item
-			Long itemStatus = Long.find("code = ?", Globals.Long_BorrowedCode).first();
-			item.itemStatus = itemStatus;
-			item.save();
-		}
-
-		redirect("/borrowitems/list");
-		*/
-
+		// Goto the checkout page again. 
+		 return showCheckOutForm(); 
 	}
         
 

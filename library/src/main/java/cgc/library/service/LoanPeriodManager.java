@@ -1,7 +1,8 @@
 package cgc.library.service;
 
-// Start of user code for import
+import cgc.library.model.Item;
 import cgc.library.model.LoanPeriod;
+// Start of user code for import
 
 
 
@@ -12,5 +13,10 @@ import cgc.library.model.LoanPeriod;
  * This is the interface which represents the contract of the DAO access.
  */
 public interface LoanPeriodManager extends GenericManager<LoanPeriod,Long>{
-
+	 /**
+     * Return the default loan peroid of an item. 
+     * @param item
+     * @return
+     */
+	 public Integer getDefaultDueDays(Item item); 
 }

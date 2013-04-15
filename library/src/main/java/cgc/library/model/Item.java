@@ -30,7 +30,7 @@ import cgc.library.Globals;
 	   @NamedQuery(
 		 name = "findItemsByBarcode",
 		 query = "from Item item where item.barcode = :barcode"
-	    )	
+	    )
 	})
 
   @Entity
