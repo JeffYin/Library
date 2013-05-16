@@ -8,23 +8,12 @@
 </head>
  
 <div class="span2">
-    <h2><fmt:message key='menu.checkout'/></h2>
+    <h2><fmt:message key='menu.checkin'/></h2>
 </div>
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="borrowRecord" method="post" action="checkout" id="borrowItemForm"  cssClass="well form-horizontal" >
+    <form:form commandName="borrowRecord" method="post" action="checkin" id="borrowItemForm"  cssClass="well form-horizontal" >
      
-    <div class="control-group">
-        <appfuse:label styleClass="control-label" key="reader.cardId"/>
-        <div class="controls">
-            <input type="text" name="cardBarcode" id="cardBarcode" maxlength="50" placeholder="<fmt:message key='webapp.scan.librarycard'/>"/>
-	        <div class="controls" id="divScannedLibraryCard">
-	            <input type='hidden' id='readerId' name='readerId'>
-	            <label id="readerName"></label>
-	        </div>
-        </div>
-    </div>
-
     <div class="control-group">
         <appfuse:label styleClass="control-label" key="item.barcode"/>
         <div class="controls">
@@ -65,57 +54,7 @@
     });   
  
     
-    $("#cardBarcode").keypress(function(e) {
-		if(e.keyCode == 13) {
-			 barcode = $("#cardBarcode").val();
-			 $.ajax({
-				    type: "POST",
-					url: "scanLibraryCard",
-					dataType: "json",
-					data: {
-						barcode: barcode
-						//name_startsWith: request.term
-					},
-					success: function(data ) {
-						var item = data;
-						var barcode = item.cardId; 
-						var readerId = item.id;
-						var name = item.name;
-		
-						$("#readerId").val(readerId); 
-						
-						$("#readerName").text(name);
-						
-						 $("#itemBarcode").val("");
-						 $("#itemBarcode").focus();
-						 
-
-						},
-
-
-					error: function(jqXHR, exception) {
-			            if (jqXHR.status === 0) {
-			                alert('Not connect.\n Verify Network.');
-			            } else if (jqXHR.status == 700) {
-			                alert('The barcode is NOT found.');
-			            } else if (jqXHR.status == 710) {
-			                alert('More than one library card are found.');
-			            } else if (jqXHR.status == 720) {
-			                alert('The material has been reported lost.');
-			            } else if (jqXHR.status == 730) {
-			                alert('The material is not checked in yet');
-			            }else {
-			            	alert(jqXHR.responseText);
-			            }
-			            $("#itemBarcode").val("");
-			        }
-
-				});
-
-			 e.stopPropagation();
-    			return false;
-		}
-	});
+    
     
     var itemBarcodeScanned = 'itemBarcodeScanned';
     $("#itemBarcode").keypress(function(e) {
@@ -123,7 +62,7 @@
 				 barcode = $("#itemBarcode").val();
 				 $.ajax({
 					    type: "POST",
-						url: "scanItem",
+						url: "scanCheckinItem",
 						dataType: "json",
 						data: {
 							barcode: barcode

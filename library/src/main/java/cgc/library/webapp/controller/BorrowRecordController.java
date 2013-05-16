@@ -1,6 +1,7 @@
 package cgc.library.webapp.controller;
 
 // Start of user code for import
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cgc.library.Constants;
 import cgc.library.Globals;
 import cgc.library.model.BorrowRecord;
+import cgc.library.model.CheckinResponseInfo;
 import cgc.library.model.Item;
 import cgc.library.model.Reader;
 import cgc.library.service.BorrowRecordManager;
@@ -80,8 +82,17 @@ public class BorrowRecordController {
 	}
 	
 
-	@RequestMapping(value="/scanItem", method = RequestMethod.POST)
-	public void scanItem(String barcode, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/checkin", method = RequestMethod.GET)
+	public ModelAndView showCheckInForm() {
+		BorrowRecord borrowRecord = new BorrowRecord(); 
+		Model model = new ExtendedModelMap();
+		model.addAttribute(Constants.BORROW_RECORD, borrowRecord); 
+		return new ModelAndView("checkin", model.asMap());
+	}
+	
+
+	@RequestMapping(value="/scanCheckoutItem", method = RequestMethod.POST)
+	public void scanCheckoutItem(String barcode, HttpServletResponse response) throws Exception {
 		Map<String, Object> queryParams  = new HashMap<String, Object>(1); 
 		queryParams.put("barcode", barcode); 
 		List<Item> items = itemManager.findByNamedQuery("findItemsByBarcode", queryParams); 
@@ -107,6 +118,48 @@ public class BorrowRecordController {
 			response.setStatus(Globals.Error_Item_FoundNothing);
 		} else { /* more than one items found */
             response.setStatus(Globals.Error_Item_FoundMoreThanOne);			
+		}
+	}
+	
+	@RequestMapping(value="/scanCheckinItem", method = RequestMethod.POST)
+	public void scanCheckinItem(String barcode, HttpServletResponse response) throws Exception {
+		Map<String, Object> queryParams  = new HashMap<String, Object>(1); 
+		queryParams.put("barcode", barcode); 
+		List<BorrowRecord> borrowRecordList = borrowRecordManager.findByNamedQuery("findRecordsByItemBarcode", queryParams); 
+		int numberFound = borrowRecordList.size();
+		if (numberFound==1) { /* found the exact item */
+			BorrowRecord borrowRecord = borrowRecordList.get(0);
+			
+			//TODO: get the information from here....
+			Item item = borrowRecord.getItem(); 
+			Integer itemStatus = item.getItemStatus(); 
+			
+			if (itemStatus!=null) {
+				if (itemStatus.equals(Globals.ItemStatus_Borrowed)) {
+					//Change Item status to be on the shelf 
+			        item.setItemStatus(Globals.ItemStatus_Shelf); 		
+					itemManager.save(item); 
+					
+					borrowRecord.setReturnedDate(Calendar.getInstance().getTime()); 
+					
+					//Get reader information
+					Reader reader = borrowRecord.getReader();
+					CheckinResponseInfo responseInfo = new CheckinResponseInfo(reader, item); 
+					
+					JSONSerializer serializer = new JSONSerializer(); 
+					String feedback = serializer.serialize(responseInfo);
+					response.getWriter().print(feedback);
+				} else {
+					response.setStatus(itemStatus); 
+				}
+			} else {
+				response.setStatus(Globals.Error_Item_NotOnShelf); /* Item is not on the shelves */
+			}
+			
+		} else if (numberFound==0) { /* found nothing */
+			response.setStatus(Globals.Error_Item_FoundNothing);
+		} else { /* more than one items found */
+			response.setStatus(Globals.Error_Item_FoundMoreThanOne);			
 		}
 	}
 	
@@ -187,6 +240,7 @@ public class BorrowRecordController {
 		 return showCheckOutForm(); 
 	}
         
+	
 
 	
 		//*/

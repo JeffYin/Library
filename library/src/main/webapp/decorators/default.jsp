@@ -18,6 +18,8 @@
     <script type="text/javascript" src="<c:url value='/scripts/lib/plugins/jquery.cookie.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/script.js'/>"></script>
     
+    <!-- Must include the bootstrap to support struts 2 menu -->
+    <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap.2.3.1.js'/>"></script>
      <decorator:head/>
      
 </head>

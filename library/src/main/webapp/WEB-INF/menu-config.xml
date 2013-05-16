@@ -15,8 +15,8 @@
         <Menu name="Book" title="mainMenu.bibliography" description="Bibliography Management" page="/books" roles="ROLE_ADMIN,ROLE_USER"/>
         <Menu name="Reader" title="mainMenu.readers" description="Reader Management" page="/readers" roles="ROLE_ADMIN,ROLE_USER"/>
         <Menu name="Circulation" title="menu.circulation" description="circulation" roles="ROLE_ADMIN,ROLE_USER" page = "/circulation/checkout">
-            <item name = "Checkout" title = "menu.checkout" page = "/circulation/checkout" />
-            <item name = "Checkin" title = "menu.checkin" page = "/circulation/checkout" />
+            <Item name = "Checkout" title = "menu.checkout" page = "/circulation/checkout" />
+            <Item name = "Checkin" title = "menu.checkin" page = "/circulation/checkin" />
         </Menu>
         <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER"/>
     </Menus>

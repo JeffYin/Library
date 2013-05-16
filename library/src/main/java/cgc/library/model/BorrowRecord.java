@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -22,8 +24,16 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  */
 
+@NamedQueries ({
+	   @NamedQuery(
+		 name = "findRecordsByItemBarcode",
+		 query = "from BorrowRecord r where r.item.barcode = :barcode and returnedDate is null"
+	    )
+	})
+
   @Entity
   @Table(name="borrow_record")
+  
 public class BorrowRecord extends BaseObject implements Serializable {
 
     /**

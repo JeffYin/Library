@@ -3,8 +3,6 @@
 <head>
     <title><fmt:message key="menu.checkout"/></title>
     <meta name="menu" content="checkoutMenu"/>
-    
-    <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap.2.3.1.js'/>"></script>
 </head>
  
 <div class="span2">
@@ -123,7 +121,7 @@
 				 barcode = $("#itemBarcode").val();
 				 $.ajax({
 					    type: "POST",
-						url: "scanItem",
+						url: "scanCheckoutItem",
 						dataType: "json",
 						data: {
 							barcode: barcode
