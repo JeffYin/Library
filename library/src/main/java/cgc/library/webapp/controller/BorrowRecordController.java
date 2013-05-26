@@ -90,6 +90,14 @@ public class BorrowRecordController {
 		return new ModelAndView("checkin", model.asMap());
 	}
 	
+	@RequestMapping(value="/bookOverDueQuery", method = RequestMethod.GET)
+	public ModelAndView showBookOverDueQueryForm() {
+		List<BorrowRecord> overDueBorrowRecords = borrowRecordManager.findOverDueItemOfToday(); 
+		Model model = new ExtendedModelMap();
+		model.addAttribute("overDueRecordList", overDueBorrowRecords); 
+		return new ModelAndView("bookOverDueQuery", model.asMap());
+	}
+	
 
 	@RequestMapping(value="/scanCheckoutItem", method = RequestMethod.POST)
 	public void scanCheckoutItem(String barcode, HttpServletResponse response) throws Exception {
@@ -141,6 +149,8 @@ public class BorrowRecordController {
 					itemManager.save(item); 
 					
 					borrowRecord.setReturnedDate(Calendar.getInstance().getTime()); 
+					borrowRecord.setReturnedFlag(true); 
+					borrowRecordManager.save(borrowRecord); 
 					
 					//Get reader information
 					Reader reader = borrowRecord.getReader();

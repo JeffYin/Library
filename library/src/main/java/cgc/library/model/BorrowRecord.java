@@ -20,6 +20,7 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.hibernate.annotations.Type;
 // End of user code for imports
 /**
  */
@@ -27,8 +28,12 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @NamedQueries ({
 	   @NamedQuery(
 		 name = "findRecordsByItemBarcode",
-		 query = "from BorrowRecord r where r.item.barcode = :barcode and returnedDate is null"
-	    )
+		 query = "from BorrowRecord r where r.item.barcode = :barcode and returnedFlag = false"
+	    ),
+	   @NamedQuery(
+			   name = "findUnReturnedRecordsByDate",
+			   query = "from BorrowRecord r where r.returnedFlag = false and r.dueDate <= :date"
+			   )
 	})
 
   @Entity
@@ -64,9 +69,12 @@ public class BorrowRecord extends BaseObject implements Serializable {
      */
     private Date returnedDate;
 
+    @Type(type = "true_flase")
+    private boolean returnedFlag; 
     
     private Item item; 
 
+    
 
 	/* To support bidirectional databinding */
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -199,13 +207,15 @@ public class BorrowRecord extends BaseObject implements Serializable {
        propertyChangeSupport.firePropertyChange("returnedDate", this.returnedDate, this.returnedDate=someReturnedDate);
     }
     
+    public Boolean getReturnedFlag() {
+		return returnedFlag;
+	}
 
+	public void setReturnedFlag(Boolean returnedFlag) {
+		this.returnedFlag = returnedFlag;
+	}
 
-
-
-
-   
-    /**
+	/**
      * Equality test based on attributes values.
      * @param other Value to compare
      * @return Returns true if and only if given object is an instance of

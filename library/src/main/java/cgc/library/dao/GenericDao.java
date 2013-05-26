@@ -89,6 +89,13 @@ public interface GenericDao <T, PK extends Serializable> {
     List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams);
 
     /**
+     * Find by the query string.
+     * @param query
+     * @param queryParams
+     * @return
+     */
+    public List<?> findByHql(String hql, Map<String, Object> queryParams);
+    /**
      * Generic method to regenerate full text index of the persistent class T
      */
     void reindex();

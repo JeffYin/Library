@@ -1,6 +1,11 @@
 package cgc.library.dao.hibernate;
 
 // Start of user code for import
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
@@ -23,5 +28,15 @@ public class BorrowRecordDaoHibernate extends PaginatedDaoHibernate<BorrowRecord
     public BorrowRecordDaoHibernate() {
     	super(BorrowRecord.class); 
     }
+	@Override
+	public List<BorrowRecord> findOverDueItemByDate(Date date) {
+//		String hql = "select item from BorrowRecord r join r.item item where r.returnedFlag = false and r.dueDate <= :date"; 
+//		Date today = new DateTime().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toDate(); 
+
+		Map<String,Object>paraMap = new HashMap<String, Object>(1); 
+		paraMap.put("date", date); 
+		List<BorrowRecord> overDueRecords = findByNamedQuery("findUnReturnedRecordsByDate", paraMap); 
+		return overDueRecords;
+	}
    
 }

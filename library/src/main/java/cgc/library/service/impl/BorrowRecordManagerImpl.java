@@ -1,8 +1,12 @@
 package cgc.library.service.impl;
 
 // Start of user code for import
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +33,19 @@ public class BorrowRecordManagerImpl extends GenericManagerImpl<BorrowRecord,Lon
     public BorrowRecordManagerImpl(BorrowRecordDao borrowRecordDao ) {
         super(borrowRecordDao);
         this.borrowRecordDao=borrowRecordDao;
-         // Start of user code for customized constructor.
-
-         // End of user code for consutuctor. 
     }
+
+	@Override
+	public List<BorrowRecord> findOverDueItemByDate(Date date) {
+		List<BorrowRecord> itemList = borrowRecordDao.findOverDueItemByDate(date); 
+		return itemList;
+	}
+
+	@Override
+	public List<BorrowRecord> findOverDueItemOfToday() {
+		DateTime today = new DateTime().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59); 
+		return findOverDueItemByDate(today.toDate());
+	}
     
 
 }

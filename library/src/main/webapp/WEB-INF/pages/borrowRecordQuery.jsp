@@ -1,22 +1,25 @@
 <%@ include file="/common/taglibs.jsp"%>
 
 <head>
-    <title><fmt:message key="menu.checkout"/></title>
-    <meta name="menu" content="checkoutMenu"/>
+    <title><fmt:message key="borrowRecord.query"/></title>
+    <meta name="menu" content="borrowRecordQueryMenu"/>
     
     <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap.2.3.1.js'/>"></script>
 </head>
  
 <div class="span2">
-    <h2><fmt:message key='menu.checkin'/></h2>
+    <h2><fmt:message key='borrowRecord.query'/></h2>
 </div>
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="borrowRecord" method="post" action="checkin" id="borrowItemForm"  cssClass="well form-horizontal" >
+    <form:form commandName="borrowRecord" method="post" action="overDueBookQuery" id="borrowRecordForm"  cssClass="well form-horizontal" >
      
     <div class="control-group">
-        <appfuse:label styleClass="control-label" key="item.barcode"/>
+        <appfuse:label styleClass="control-label" key="borrowRecord.dueDate"/>
         <div class="controls">
+            <form:select path="" >
+            
+            </form:select>
             <input type="text" name="itemBarcode" id="itemBarcode" maxlength="32" placeholder="<fmt:message key='webapp.scan.item.barcode'/>" />
             <form:errors path="item.barcode" cssClass="help-inline"/>
         </div>

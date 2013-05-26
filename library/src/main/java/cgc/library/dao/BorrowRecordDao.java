@@ -1,6 +1,8 @@
 package cgc.library.dao;
 
-// Start of user code for import
+import java.util.Date;
+import java.util.List;
+
 import cgc.library.model.BorrowRecord;
 
 
@@ -11,5 +13,10 @@ import cgc.library.model.BorrowRecord;
  * This is the interface which represents the contract of the DAO access.
  */
 public interface BorrowRecordDao extends PaginatedDao<BorrowRecord,Long>{
-
+	/**
+	 * Find the overdue book. 
+	 * @param date
+	 * @return
+	 */
+	List<BorrowRecord> findOverDueItemByDate(Date date); 
 }

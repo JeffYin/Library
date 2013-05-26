@@ -214,6 +214,24 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     }
 
     /**
+     * Find by the query string.
+     * @param hql
+     * @param queryParams
+     * @return
+     */
+    @Override
+    public List<?> findByHql(String hql, Map<String, Object> queryParams) {
+    	Session sess = getSession();
+    	Query namedQuery = sess.createQuery(hql);
+    	
+    	namedQuery.setProperties(queryParams); 
+    	namedQuery.list(); 
+    	
+    	return namedQuery.list();
+    }
+
+    
+    /**
      * {@inheritDoc}
      */
     @Override
