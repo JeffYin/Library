@@ -18,7 +18,7 @@
             <Item name = "Checkout" title = "menu.checkout" page = "/circulation/checkout" />
             <Item name = "Checkin" title = "menu.checkin" page = "/circulation/checkin" />
             <Item name = "Checkin" title = "borrowRecord.query" page = "/circulation/bookOverDueQuery" />
-            
+            <Item name = "borrowRecordQuery" title = "borrowRecord.query" page = "/circulation/borrowRecordQuery" />
         </Menu>
         <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER"/>
     </Menus>

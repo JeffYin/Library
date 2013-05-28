@@ -97,6 +97,14 @@ public class BorrowRecordController {
 		model.addAttribute("overDueRecordList", overDueBorrowRecords); 
 		return new ModelAndView("bookOverDueQuery", model.asMap());
 	}
+
+	@RequestMapping(value="/borrowRecordQuery", method = RequestMethod.GET)
+	public ModelAndView showBorrowRecordQueryForm() {
+		List<BorrowRecord> overDueBorrowRecords = borrowRecordManager.getAll(); 
+		Model model = new ExtendedModelMap();
+		model.addAttribute("borrowRecordRecordList", overDueBorrowRecords); 
+		return new ModelAndView("borrowRecordQuery", model.asMap());
+	}
 	
 
 	@RequestMapping(value="/scanCheckoutItem", method = RequestMethod.POST)
