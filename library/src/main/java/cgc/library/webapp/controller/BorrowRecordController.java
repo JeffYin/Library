@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cgc.library.Constants;
 import cgc.library.Globals;
+import cgc.library.data.BookRecordQueryForm;
 import cgc.library.model.BorrowRecord;
 import cgc.library.model.CheckinResponseInfo;
 import cgc.library.model.Item;
@@ -103,6 +104,10 @@ public class BorrowRecordController {
 		List<BorrowRecord> overDueBorrowRecords = borrowRecordManager.getAll(); 
 		Model model = new ExtendedModelMap();
 		model.addAttribute("borrowRecordRecordList", overDueBorrowRecords); 
+		
+		BookRecordQueryForm form = new BookRecordQueryForm(); 
+		model.addAttribute("form", form); 
+		
 		return new ModelAndView("borrowRecordQuery", model.asMap());
 	}
 	

@@ -9,7 +9,6 @@
     <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-typeahead.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-datepicker.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/lib/jquery.price_format.1.7.js'/>"></script>
-    <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap.2.3.1.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/lib/bootstrap-confirm.js'/>"></script>
 </head>
  
